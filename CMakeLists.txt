@@ -13,5 +13,8 @@ find_package(glm CONFIG REQUIRED)
 find_path(STB_INCLUDE_DIRS "stb_c_lexer.h")
 find_package(assimp CONFIG REQUIRED)
 
+include_directories(Shaders)
+include_directories(Textures)
+
 add_subdirectory(Application)
 add_subdirectory(Source)

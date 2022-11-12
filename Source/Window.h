@@ -8,13 +8,20 @@
 
 class Window
 {
-public:
-	Window(int width, int height);
-	~Window();
-private:
-	int _width;
-	int _height;
-	GLFWwindow* _window;
+	public:
+		Window(int width, int height);
+		~Window();
+		int GetWidth() const;
+		int GetHeight() const;
+		int Initialize();
+		int ShouldClose();
+		void SwapBuffers();
+		void PollEvents();
+		static void FramebufferSizeCallback();
+	private:
+		int _width;
+		int _height;
+		GLFWwindow* _window;
 };
 
 #endif // !_WINDOW_H

@@ -2,8 +2,14 @@
 
 int main()
 {
-	Window w{ 800, 600 };
+	Window window{ 800, 600 };
 	
+	while (!window.ShouldClose())
+	{
+
+		window.SwapBuffers();
+		window.PollEvents();
+	}
 
 	return 0;
 }
