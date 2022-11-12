@@ -1,1 +1,1 @@
-# OpenGLTemplate
+# OpenGL Template
