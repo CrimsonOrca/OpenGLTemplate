@@ -7,4 +7,11 @@ project(
 	LANGUAGES CXX
 )
 
-add_subdirectory("Source")
+find_package(glad CONFIG REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
+find_path(STB_INCLUDE_DIRS "stb_c_lexer.h")
+find_package(assimp CONFIG REQUIRED)
+
+add_subdirectory(Application)
+add_subdirectory(Source)

@@ -1,0 +1,12 @@
+{
+  "name": "opengl-template",
+  "version": "1",
+  "dependencies": [
+    "glm",
+    "glfw3",
+    "glad",
+    "opengl",
+    "stb",
+    "assimp"
+  ]
+}
