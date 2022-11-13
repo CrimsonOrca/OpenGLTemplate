@@ -2,11 +2,12 @@
   "name": "opengl-template",
   "version": "1",
   "dependencies": [
-    "glm",
-    "glfw3",
-    "glad",
     "opengl",
+    "glad",
+    "glfw3",
+    "glm",
     "stb",
-    "assimp"
+    "assimp",
+    "imgui"
   ]
 }
