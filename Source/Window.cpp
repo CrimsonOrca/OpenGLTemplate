@@ -12,7 +12,9 @@ Window::Window(int width, int height)
         std::cout << "FAILED WINDOW OBJECT INITIALIZATION..." << std::endl;
     }
 
-    glViewport(0, 0, _width, _height);
+    glfwSetFramebufferSizeCallback(_window, [](GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+    });
 
 }
 
@@ -29,6 +31,11 @@ int Window::GetWidth() const
 int Window::GetHeight() const
 {
     return _height;
+}
+
+GLFWwindow* Window::GetWindow()
+{
+    return _window;
 }
 
 int Window::Initialize()
@@ -66,12 +73,26 @@ int Window::ShouldClose()
     return glfwWindowShouldClose(_window);
 }
 
+void Window::ProcessInput()
+{
+    if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(_window, true);
+    }
+}
+
 void Window::SwapBuffers()
 {
     glfwSwapBuffers(_window);
 }
 
-void Window::PollEvents()
+void Window::ClearScreen()
+{
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Window::ProcessEvents()
 {
     glfwPollEvents();
 }

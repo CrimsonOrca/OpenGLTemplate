@@ -2,13 +2,23 @@
 
 int main()
 {
-	Window window{ 800, 600 };
+	const int windowWidth{ 800 };
+	const int windowHeight{ 600 };
+	Window window{ windowWidth, windowHeight };
 	
-	while (!window.ShouldClose())
-	{
 
+
+	while (!window.ShouldClose())
+	{	
+		// inputs...
+		window.ProcessInput();
+
+		// rendering commands...
+		window.ClearScreen();
+
+		// check and call events, swap the front and back buffers...
 		window.SwapBuffers();
-		window.PollEvents();
+		window.ProcessEvents();
 	}
 
 	return 0;

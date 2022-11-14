@@ -13,11 +13,14 @@ class Window
 		~Window();
 		int GetWidth() const;
 		int GetHeight() const;
+		GLFWwindow* GetWindow();
 		int Initialize();
 		int ShouldClose();
+		void ProcessInput();
+		void ClearScreen();
 		void SwapBuffers();
-		void PollEvents();
-		static void FramebufferSizeCallback();
+		void ProcessEvents();
+		
 	private:
 		int _width;
 		int _height;

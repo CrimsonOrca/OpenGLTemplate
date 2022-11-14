@@ -2,7 +2,7 @@
 
 project(
 	"OpenGLTemplate"
-	VERSION 1
+	VERSION 0.1.0
 	DESCRIPTION "..."
 	LANGUAGES CXX
 )
