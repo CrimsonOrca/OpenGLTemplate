@@ -27,6 +27,8 @@ class Mesh
 		void CreateMesh();
 		void RenderMesh();
 		void DeleteMesh();
+		void GenerateVertices();
+		void GenerateIndices();
 	protected:
 		std::vector<Vertex> _vertices;
 		std::vector<unsigned int> _indices;

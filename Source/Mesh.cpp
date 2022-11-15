@@ -52,3 +52,13 @@ void Mesh::DeleteMesh()
 	glDeleteBuffers(1, &_vertexBufferObject);
 	glDeleteBuffers(1, &_indexBufferObject);
 }
+
+void Mesh::GenerateVertices()
+{
+
+}
+
+void Mesh::GenerateIndices()
+{
+
+}
