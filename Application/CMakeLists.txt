@@ -4,5 +4,5 @@ target_include_directories(Application PRIVATE "../Source")
 
 target_compile_features(Application PRIVATE cxx_std_17)
 
-target_link_libraries(Application PRIVATE Window)
+target_link_libraries(Application PUBLIC Triangle Mesh Shader Window)
 
