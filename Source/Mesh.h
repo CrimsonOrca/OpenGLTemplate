@@ -8,16 +8,10 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
-
-struct Vertex
-{
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec2 textureCoordinate;
-};
+#include "Vertex.h"
+#include "VertexArray.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 class Mesh
 {
@@ -29,12 +23,15 @@ class Mesh
 		void DeleteMesh();
 		void GenerateVertices();
 		void GenerateIndices();
+		void SetVertices(std::vector<Vertex> vertices);
+		void SetIndices(std::vector<GLuint> indices);
 	protected:
 		std::vector<Vertex> _vertices;
-		std::vector<unsigned int> _indices;
-		unsigned int _vertexArrayObject;
-		unsigned int _vertexBufferObject;
-		unsigned int _indexBufferObject;
+		std::vector<GLuint> _indices;
+
+		VertexArray  _vertexArray;
+		VertexBuffer _vertexBuffer;
+		IndexBuffer  _indexBuffer;
 };
 
 #endif // !_MESH_H_

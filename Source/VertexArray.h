@@ -1,0 +1,21 @@
+#ifndef _VERTEX_ARRAY_H_
+#define _VERTEX_ARRAY_H_
+
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
+#include "Vertex.h"
+
+class VertexArray
+{
+public:
+	VertexArray();
+	~VertexArray();
+	void Bind();
+	void Unbind();
+	GLuint GetID() const;
+private:
+	GLuint _ID;
+};
+
+#endif // _VERTEX_ARRAY_H_

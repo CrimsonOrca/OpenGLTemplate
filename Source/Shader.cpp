@@ -48,7 +48,7 @@ void Shader::CompileShader(std::string shaderString, GLenum shaderType)
 			CompileFragmentShader(shaderString);
 			break;
 		default:
-				std::cout << "..." << std::endl;
+			std::cout << "..." << std::endl;
 	}
 }
 
