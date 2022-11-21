@@ -1,16 +1,16 @@
 #include "IndexBuffer.h"
 
 IndexBuffer::IndexBuffer()
-	: _ID      {0}
-	, _indices { }
+	: _ID{ 0 }
+	, _indices{ }
 {
 	glGenBuffers(1, &_ID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ID);
 }
 
 IndexBuffer::IndexBuffer(std::vector<GLuint> indices)
-	: _ID      {0}
-	, _indices {indices}
+	: _ID{ 0 }
+	, _indices{ indices }
 {
 	glGenBuffers(1, &_ID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ID);
@@ -20,11 +20,6 @@ IndexBuffer::IndexBuffer(std::vector<GLuint> indices)
 IndexBuffer::~IndexBuffer()
 {
 	glDeleteBuffers(1, &_ID);
-}
-
-GLuint IndexBuffer::GetID() const
-{
-	return _ID;
 }
 
 void IndexBuffer::SetIndices(std::vector<GLuint> indices)

@@ -14,7 +14,6 @@ public:
 	IndexBuffer();
 	IndexBuffer(std::vector<GLuint> indices);
 	~IndexBuffer();
-	GLuint GetID() const;
 	void SetIndices(std::vector<GLuint> indices);
 private:
 	GLuint _ID;

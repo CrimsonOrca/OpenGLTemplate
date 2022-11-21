@@ -1,6 +1,7 @@
 #ifndef _VERTEX_BUFFER_H_
 #define _VERTEX_BUFFER_H_
 
+#include <iostream>
 #include <vector>
 
 #include "glad/glad.h"
@@ -14,7 +15,6 @@ public:
 	VertexBuffer();
 	VertexBuffer(std::vector<Vertex> vertices);
 	~VertexBuffer();
-	GLuint GetID();
 	void SetVertices(std::vector<Vertex> vertices);
 private:
 	GLuint _ID;

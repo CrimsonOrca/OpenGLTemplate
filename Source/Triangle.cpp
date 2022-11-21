@@ -4,7 +4,7 @@ Triangle::Triangle()
 {
 	GenerateVertices();
 	GenerateIndices();
-	Mesh::CreateMesh();
+	Create();
 }
 
 Triangle::~Triangle()

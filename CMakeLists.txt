@@ -7,8 +7,6 @@ project(
 	LANGUAGES CXX
 )
 
-include_directories(Application PRIVATE "../Shaders")
-
 find_package(glad CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)

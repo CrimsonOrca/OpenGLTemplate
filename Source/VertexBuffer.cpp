@@ -30,11 +30,6 @@ VertexBuffer::~VertexBuffer()
 	glDeleteBuffers(1, &_ID);
 }
 
-GLuint VertexBuffer::GetID()
-{
-	return _ID;
-}
-
 void VertexBuffer::SetVertices(std::vector<Vertex> vertices)
 {
 	_vertices = vertices;

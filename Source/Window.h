@@ -6,6 +6,9 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
+const int MAJOR { 4 };
+const int MINOR { 2 };
+
 class Window
 {
 	public:
@@ -13,7 +16,7 @@ class Window
 		~Window();
 		int GetWidth() const;
 		int GetHeight() const;
-		GLFWwindow* GetWindow();
+		GLFWwindow* GetWindowPointer();
 		int Initialize();
 		int ShouldClose();
 		void ProcessInput();

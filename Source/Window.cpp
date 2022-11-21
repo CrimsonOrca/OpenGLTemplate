@@ -33,7 +33,7 @@ int Window::GetHeight() const
     return _height;
 }
 
-GLFWwindow* Window::GetWindow()
+GLFWwindow* Window::GetWindowPointer()
 {
     return _window;
 }
@@ -46,8 +46,8 @@ int Window::Initialize()
         return 0;
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MAJOR);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MINOR);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     _window = glfwCreateWindow(_width, _height, "", nullptr, nullptr);

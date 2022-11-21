@@ -7,7 +7,13 @@ Mesh::Mesh()
 	, _vertexBuffer {}
 	, _indexBuffer  {}
 {
-
+	/*
+		Generate mesh vertices and indices via custom alorithm...
+		Send mesh data to GPU...
+		DerivedClass::GenerateVertices();
+		DerivedClass::GenerateIndices();
+		Mesh::Create();
+	*/
 }
 
 Mesh::~Mesh() 
@@ -15,7 +21,7 @@ Mesh::~Mesh()
 
 }
 
-void Mesh::CreateMesh()
+void Mesh::Create()
 {
 	_vertexArray.Bind();
 	_vertexBuffer.SetVertices(_vertices);
@@ -23,16 +29,11 @@ void Mesh::CreateMesh()
 	_vertexArray.Unbind();
 }
 
-void Mesh::RenderMesh()
+void Mesh::Render()
 {
 	_vertexArray.Bind();
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
 	_vertexArray.Unbind();
-}
-
-void Mesh::DeleteMesh()
-{
-
 }
 
 void Mesh::SetVertices(std::vector<Vertex> vertices)
@@ -43,14 +44,4 @@ void Mesh::SetVertices(std::vector<Vertex> vertices)
 void Mesh::SetIndices(std::vector<GLuint> indices)
 {
 	_indices = indices;
-}
-
-void Mesh::GenerateVertices()
-{
-
-}
-
-void Mesh::GenerateIndices()
-{
-
 }

@@ -13,7 +13,6 @@ public:
 	~VertexArray();
 	void Bind();
 	void Unbind();
-	GLuint GetID() const;
 private:
 	GLuint _ID;
 };

@@ -21,8 +21,3 @@ void VertexArray::Unbind()
 {
 	glBindVertexArray(0);
 }
-
-GLuint VertexArray::GetID() const
-{
-	return _ID;
-}

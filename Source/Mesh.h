@@ -18,11 +18,8 @@ class Mesh
 	public:
 		Mesh();
 		~Mesh();
-		void CreateMesh();
-		void RenderMesh();
-		void DeleteMesh();
-		void GenerateVertices();
-		void GenerateIndices();
+		void Create();
+		void Render();
 		void SetVertices(std::vector<Vertex> vertices);
 		void SetIndices(std::vector<GLuint> indices);
 	protected:
