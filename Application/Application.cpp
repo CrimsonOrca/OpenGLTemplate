@@ -21,12 +21,6 @@ int main()
 
 	Rectangle recMesh;
 
-	Transformation trans;
-	trans.Scale(0.75f, 0.75f, 0.75f);
-	trans.Rotate(POSITIVE_Z_AXIS, 90.0f);
-	trans.Translate(0.5f, -0.5f, 0.0f);
-	shader.SetMatrix("transform", trans.GetTransformationMatrix());
-
 	while (!window.ShouldClose())
 	{
 		// inputs...
