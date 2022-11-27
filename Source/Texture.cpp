@@ -9,6 +9,7 @@ Texture::Texture(std::string path)
 	, _data     {nullptr}
 {
 	stbi_set_flip_vertically_on_load(true);
+
 	unsigned char* _data = stbi_load(path.c_str(), &_width, &_height, &_channels, 0);
 	if (_data)
 	{
@@ -38,6 +39,7 @@ Texture::Texture(std::string path)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, _format, _width, _height, 0, _format, GL_UNSIGNED_BYTE, _data);
 		glGenerateMipmap(GL_TEXTURE_2D);
+
 		stbi_image_free(_data);
 	}
 	else

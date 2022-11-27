@@ -12,4 +12,5 @@ target_link_libraries(
 	Mesh
 	Shader 
 	Window
+	Camera
 )

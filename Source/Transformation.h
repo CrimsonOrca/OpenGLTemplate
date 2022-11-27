@@ -16,12 +16,12 @@ class Transformation
 {
 public:
 	Transformation();
-	glm::mat4 GetTransformationMatrix() const;
+	glm::mat4 GetModelMatrix() const;
 	void Rotate(const glm::vec3& axis, float degrees);
 	void Scale(float x, float y, float z);
 	void Translate(float x, float y, float z);
 private:
-	glm::mat4 _transformation; /* scale, rotate, and translate... */
+	glm::mat4 _model; /* scale, rotate, and translate... */
 };
 
 #endif // !_TRANSFORMATION_H_

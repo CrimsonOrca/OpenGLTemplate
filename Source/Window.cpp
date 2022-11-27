@@ -5,17 +5,12 @@
 Window::Window(int width, int height)
     : _width  {width}
     , _height {height}
-    , _window {nullptr}
+    , _window {NULL}
 {
     if (!Initialize())
     {
         std::cout << "FAILED WINDOW OBJECT INITIALIZATION..." << std::endl;
     }
-
-    glfwSetFramebufferSizeCallback(_window, [](GLFWwindow* window, int width, int height) {
-        glViewport(0, 0, width, height);
-    });
-
 }
 
 Window::~Window()
@@ -38,6 +33,11 @@ GLFWwindow* Window::GetWindowPointer()
     return _window;
 }
 
+Mouse Window::GetMouse() const 
+{ 
+    return mMouse;
+}
+
 int Window::Initialize()
 {
     if (!glfwInit())
@@ -46,18 +46,30 @@ int Window::Initialize()
         return 0;
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MAJOR);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MINOR);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_VERSION_MAJOR);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OPENGL_VERSION_MINOR);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    _window = glfwCreateWindow(_width, _height, "", nullptr, nullptr);
+    _window = glfwCreateWindow(_width, _height, "", NULL, NULL);
+
     if (_window == NULL)
     {
         std::cout << "FAILED TO CREATE GLFW WINDOW..." << std::endl;
         glfwTerminate();
         return 0;
     }
+
     glfwMakeContextCurrent(_window);
+
+    glfwSetWindowUserPointer(_window, this);
+
+    glfwSetCursorPosCallback(_window, CursorPositionCallback);
+
+    glfwSetScrollCallback(_window, ScrollCallback);
+
+    glfwSetFramebufferSizeCallback(_window, [](GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+    });
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -95,4 +107,38 @@ void Window::ClearScreen()
 void Window::ProcessEvents()
 {
     glfwPollEvents();
+}
+
+void Window::CursorPositionCallback(GLFWwindow* window, double mousePositionX, double mousePositionY)
+{
+    auto* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+    float& x = w->mMouse.x;
+    float& y = w->mMouse.y;
+    float& deltaX = w->mMouse.deltaX;
+    float& deltaY = w->mMouse.deltaY;
+
+    float xCurrent = static_cast<float>(mousePositionX);
+    float yCurrent = static_cast<float>(mousePositionY);
+
+    static bool isFirst = true;
+
+    if (isFirst)
+    {
+        x = xCurrent;
+        y = yCurrent;
+        isFirst = false;
+    }
+
+    deltaX = xCurrent - x;
+    deltaY = y - yCurrent;
+
+    x = xCurrent;
+    y = yCurrent;
+}
+
+void Window::ScrollCallback(GLFWwindow* window, double x, double y)
+{
+    Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
 }
