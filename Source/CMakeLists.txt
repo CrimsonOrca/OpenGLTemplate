@@ -1,38 +1,38 @@
-﻿add_library(Window         STATIC Window.cpp         Window.h        )
-add_library(Mesh           STATIC Mesh.cpp           Mesh.h          )
-add_library(Rectangle      STATIC Rectangle.cpp      Rectangle.h     )
-add_library(Shader         STATIC Shader.cpp         Shader.h        ) 
-add_library(VertexArray    STATIC VertexArray.cpp    VertexArray.h   )
-add_library(VertexBuffer   STATIC VertexBuffer.cpp   VertexBuffer.h  )
-add_library(IndexBuffer    STATIC IndexBuffer.cpp    IndexBuffer.h   )
-add_library(Texture        STATIC Texture.cpp        Texture.h       )
-add_library(Transformation STATIC Transformation.cpp Transformation.h)
-add_library(stb_image      STATIC stb_image.cpp                      )
-add_library(Camera         STATIC Camera.cpp         Camera.h)
+﻿set(SOURCE_FILES
+	Window.cpp
+	Mesh.cpp
+	Rectangle.cpp
+	Shader.cpp
+	VertexArray.cpp
+	VertexBuffer.cpp
+	IndexBuffer.cpp
+	Texture.cpp
+	Transformation.cpp
+	stb_image.cpp
+	Camera.cpp
+)
 
-target_include_directories(stb_image PUBLIC ${STB_INCLUDE_DIRS})
+set(HEADER_FILES
+	Window.h
+	Mesh.h
+	Rectangle.h
+	Shader.h
+	VertexArray.h
+	VertexBuffer.h
+	IndexBuffer.h
+	Texture.h
+	Transformation.h
+	Camera.h
+	Constants.h
+	Vertex.h
+)
 
-target_compile_features(Window         PUBLIC cxx_std_17)
-target_compile_features(Mesh           PUBLIC cxx_std_17)
-target_compile_features(Rectangle      PUBLIC cxx_std_17)
-target_compile_features(Shader         PUBLIC cxx_std_17)
-target_compile_features(VertexArray    PUBLIC cxx_std_17)
-target_compile_features(VertexBuffer   PUBLIC cxx_std_17)
-target_compile_features(IndexBuffer    PUBLIC cxx_std_17)
-target_compile_features(stb_image      PUBLIC cxx_std_17)
-target_compile_features(Texture        PUBLIC cxx_std_17)
-target_compile_features(Transformation PUBLIC cxx_std_17)
-target_compile_features(Camera         PUBLIC cxx_std_17)
+add_library(GRAPHICS_TEMPLATE STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
-set(LIBRARIES stb_image glm::glm glfw glad::glad)
+target_include_directories(GRAPHICS_TEMPLATE PUBLIC ${STB_INCLUDE_DIRS})
 
-target_link_libraries(Window         ${LIBRARIES}) 
-target_link_libraries(Mesh           ${LIBRARIES} VertexArray VertexBuffer IndexBuffer) 
-target_link_libraries(Rectangle      ${LIBRARIES}) 
-target_link_libraries(Shader         ${LIBRARIES})
-target_link_libraries(VertexArray    ${LIBRARIES})
-target_link_libraries(VertexBuffer   ${LIBRARIES}) 
-target_link_libraries(IndexBuffer    ${LIBRARIES})
-target_link_libraries(Texture        ${LIBRARIES})
-target_link_libraries(Transformation ${LIBRARIES})
-target_link_libraries(Camera         ${LIBRARIES} Window)
+target_compile_features(GRAPHICS_TEMPLATE PUBLIC cxx_std_17)
+
+set(LIBRARIES glm::glm glfw glad::glad)
+
+target_link_libraries(GRAPHICS_TEMPLATE PUBLIC ${LIBRARIES}) 

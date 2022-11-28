@@ -10,7 +10,7 @@ project(
 find_package(glad CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
-find_path(STB_INCLUDE_DIRS "stb_c_lexer.h")
+find_path(STB_INCLUDE_DIRS "stb_c_lexer.h" "stb_image.h")
 find_package(assimp CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 

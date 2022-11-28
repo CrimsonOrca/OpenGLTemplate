@@ -5,7 +5,6 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-
 #include "Constants.h"
 
 const int OPENGL_VERSION_MAJOR { 4 };

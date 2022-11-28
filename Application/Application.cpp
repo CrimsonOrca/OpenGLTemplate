@@ -4,8 +4,7 @@
 #include "Rectangle.h"
 #include "Transformation.h"
 #include "Camera.h"
-
-const std::string PATH_PREFIX { "../../../../" };
+#include "Constants.h"
 
 int main()
 {
