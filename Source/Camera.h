@@ -7,8 +7,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "Window.h"
 #include "Constants.h"
+#include "Window.h"
 
 const glm::vec3 WORLD_UP      { 0.0f, 1.0f, 0.0f };
 const glm::vec3 WORLD_FORWARD { 0.0f, 0.0f, -1.0f };
@@ -25,18 +25,6 @@ const float CAMERA_SENSITIVITY { 0.1f };
 
 const float	PITCH_MAX { 89.0f };
 const float	PITCH_MIN { -1.0f * PITCH_MAX };
-
-class Time
-{
-	public:
-		Time();
-		float GetTimeStep() const;
-		void Start();
-	private:
-		float mStep;
-		float mCurrent;
-		float mLast;
-};
 
 class Camera
 {

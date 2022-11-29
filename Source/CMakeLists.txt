@@ -1,21 +1,23 @@
 ﻿set(SOURCE_FILES
 	Window.cpp
 	Mesh.cpp
-	Rectangle.cpp
+	Quad.cpp
 	Shader.cpp
 	VertexArray.cpp
 	VertexBuffer.cpp
 	IndexBuffer.cpp
 	Texture.cpp
 	Transformation.cpp
-	stb_image.cpp
 	Camera.cpp
+	Timer.cpp
+	ShaderStorageBuffer.cpp
+	stb_image.cpp
 )
 
 set(HEADER_FILES
 	Window.h
 	Mesh.h
-	Rectangle.h
+	Quad.h
 	Shader.h
 	VertexArray.h
 	VertexBuffer.h
@@ -23,6 +25,8 @@ set(HEADER_FILES
 	Texture.h
 	Transformation.h
 	Camera.h
+	Timer.h
+	ShaderStorageBuffer.h
 	Constants.h
 	Vertex.h
 )

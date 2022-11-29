@@ -1,10 +1,12 @@
 #include "Window.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "Rectangle.h"
+#include "Quad.h"
 #include "Transformation.h"
 #include "Camera.h"
 #include "Constants.h"
+#include "Timer.h"
+#include <memory>
 
 int main()
 {
@@ -21,8 +23,6 @@ int main()
 	Texture awesomeface { PATH_PREFIX + "Textures/awesomeface.png" };
 	awesomeface.Bind(1);
 
-	Rectangle recMesh;
-
 	glEnable(GL_DEPTH);
 
 	while (!window.ShouldClose())
@@ -35,7 +35,6 @@ int main()
 
 		// set shader uniforms...
 		Transformation model;
-		model.Rotate(POSITIVE_Z_AXIS, 45.0f);
 		shader.SetMatrix("model", model.GetModelMatrix());
 		shader.SetMatrix("view", camera.GetViewMatrix());
 		shader.SetMatrix("projection", camera.GetProjectionMatrix());
@@ -43,8 +42,6 @@ int main()
 		// rendering commands...
 		window.ClearScreen();
 		glClear(GL_DEPTH_BUFFER_BIT);
-
-		recMesh.Render();
 
 		// check and call events, swap the front and back buffers...
 		window.SwapBuffers();

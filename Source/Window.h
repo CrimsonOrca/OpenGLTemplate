@@ -8,7 +8,7 @@
 #include "Constants.h"
 
 const int OPENGL_VERSION_MAJOR { 4 };
-const int OPENGL_VERSION_MINOR { 2 };
+const int OPENGL_VERSION_MINOR { 3 };
 
 struct Mouse
 {

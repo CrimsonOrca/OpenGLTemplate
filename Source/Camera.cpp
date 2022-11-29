@@ -89,23 +89,3 @@ glm::mat4 Camera::GetProjectionMatrix() const
 {
 	return glm::perspective(glm::radians(mZoom), ASPECT_RATIO, NEAR_PLANE, FAR_PLANE);
 }
-
-Time::Time()
-	: mStep    {}
-	, mCurrent {}
-	, mLast    {}
-{
-
-}
-
-void Time::Start()
-{
-	mCurrent = static_cast<float>(glfwGetTime());
-	mStep = mCurrent - mLast;
-	mLast = mCurrent;
-}
-
-float Time::GetTimeStep() const
-{
-	return mStep;
-}
