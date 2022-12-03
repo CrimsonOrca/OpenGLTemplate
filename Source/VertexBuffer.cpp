@@ -14,15 +14,13 @@ VertexBuffer::VertexBuffer(std::vector<Vertex> vertices)
 {
 	glGenBuffers(1, &_ID);
 	glBindBuffer(GL_ARRAY_BUFFER, _ID);
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), &_vertices.at(0), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * VERTEX_OFFSET, &_vertices[0], GL_STATIC_DRAW);
 
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
+	SpecifyBufferLayout(POSITION_INDEX, NUM_COMP_PER_POSITION, POSITION_OFFSET);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position         ));
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal           ));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinate));
+	SpecifyBufferLayout(NORMAL_INDEX, NUM_COMP_PER_NORMAL, NORMAL_OFFSET);
+
+	SpecifyBufferLayout(TEXTURE_COORDINATE_INDEX, NUM_COMP_PER_TEXTURE_COORDINATE, TEXTURE_COORDINATE_OFFSET);
 }
 
 VertexBuffer::~VertexBuffer()
@@ -34,14 +32,20 @@ void VertexBuffer::SetVertices(std::vector<Vertex> vertices)
 {
 	_vertices = vertices;
 
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), &_vertices.at(0), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), &_vertices[0], GL_STATIC_DRAW);
 
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
+	SpecifyBufferLayout(POSITION_INDEX, NUM_COMP_PER_POSITION, POSITION_OFFSET);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinate));
+	SpecifyBufferLayout(NORMAL_INDEX, NUM_COMP_PER_NORMAL, NORMAL_OFFSET);
+
+	SpecifyBufferLayout(TEXTURE_COORDINATE_INDEX, NUM_COMP_PER_TEXTURE_COORDINATE, TEXTURE_COORDINATE_OFFSET);
 }
+
+void VertexBuffer::SpecifyBufferLayout(GLuint index, GLuint size, void* offset)
+{
+	glEnableVertexAttribArray(index);
+	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, VERTEX_OFFSET, offset);
+}
+
+
 

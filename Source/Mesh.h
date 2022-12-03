@@ -17,16 +17,16 @@ class Mesh
 {
 	public:
 		virtual ~Mesh();
-		void Create();
+		void Setup();
 		virtual void Render() = 0;
 		virtual void GenerateVertices() = 0;
 		virtual void GenerateIndices() = 0;
 	protected:
-		std::vector<Vertex> _vertices;
-		std::vector<GLuint> _indices;
-		VertexArray _vertexArray;
-		VertexBuffer _vertexBuffer;
-		IndexBuffer _indexBuffer;
+		std::vector<Vertex> mVertices;
+		std::vector<GLuint> mIndices;
+		VertexArray mVertexArray;
+		VertexBuffer mVertexBuffer;
+		IndexBuffer mIndexBuffer;
 };
 
-#endif // !_MESH_H_
+#endif 

@@ -30,10 +30,10 @@ class Camera
 {
 	public:
 		Camera(glm::vec3 position);
-		void ProcessInput(Window& window, float timeStep);
-		void ProcessKeyboardButtonPress(Window& window, float timeStep);
-		void ProcessMouseMovement(Window& window);
-		void ProcessMouseScroll(Window& window);
+		void ProcessInput(float timeStep);
+		void ProcessKeyboardButtonPress(float timeStep);
+		void ProcessMouseMovement();
+		void ProcessMouseScroll();
 		void UpdateCameraVectors();
 		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;

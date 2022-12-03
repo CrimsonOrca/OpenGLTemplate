@@ -8,7 +8,7 @@ class Time
 {
 public:
 	Time();
-	float GetTimeStep() const;
+	float GetTimeStep();
 	void Start();
 private:
 	float mTimeStep;

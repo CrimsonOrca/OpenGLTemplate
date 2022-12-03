@@ -5,10 +5,10 @@ Mesh::~Mesh()
 
 }
 
-void Mesh::Create()
+void Mesh::Setup()
 {
-	_vertexArray.Bind();
-	_vertexBuffer.SetVertices(_vertices);
-	_indexBuffer.SetIndices(_indices);
-	_vertexArray.Unbind();
+	mVertexArray.Bind();
+	mVertexBuffer.SetVertices(mVertices);
+	mIndexBuffer.SetIndices(mIndices);
+	mVertexArray.Unbind();
 }

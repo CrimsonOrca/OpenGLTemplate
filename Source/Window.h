@@ -12,10 +12,15 @@ const int OPENGL_VERSION_MINOR { 3 };
 
 struct Mouse
 {
-	float x = 0.0f;
-	float y = 0.0f;
-	float deltaX = 0.0f;
-	float deltaY = 0.0f;
+	float x {0.0f};
+	float y {0.0f};
+	float deltaX {0.0f};
+	float deltaY {0.0f};
+};
+
+struct Input
+{
+	GLFWwindow* window {NULL};
 };
 
 class Window
@@ -34,12 +39,15 @@ class Window
 		void ProcessEvents();
 		static void CursorPositionCallback(GLFWwindow* window, double x, double y);
 		static void ScrollCallback(GLFWwindow* window, double x, double y);
-		Mouse GetMouse() const;
+		static Mouse GetMouse();
+		static Input GetInput();
 	private:
 		int _width;
 		int _height;
 		GLFWwindow* _window;
-		Mouse mMouse;
+
+		static Mouse mMouse;
+		static Input mInput;
 };
 
 #endif // !_WINDOW_H

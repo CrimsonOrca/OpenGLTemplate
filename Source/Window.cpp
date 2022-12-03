@@ -2,6 +2,10 @@
 
 #include "Window.h"
 
+Mouse Window::mMouse;
+
+Input Window::mInput;
+
 Window::Window(int width, int height)
     : _width  {width}
     , _height {height}
@@ -33,9 +37,14 @@ GLFWwindow* Window::GetWindowPointer()
     return _window;
 }
 
-Mouse Window::GetMouse() const 
+Mouse Window::GetMouse()
 { 
     return mMouse;
+}
+
+Input Window::GetInput() 
+{ 
+    return mInput; 
 }
 
 int Window::Initialize()
@@ -51,6 +60,8 @@ int Window::Initialize()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     _window = glfwCreateWindow(_width, _height, "", NULL, NULL);
+
+    mInput.window = _window;
 
     if (_window == NULL)
     {
@@ -100,7 +111,7 @@ void Window::SwapBuffers()
 
 void Window::ClearScreen()
 {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 

@@ -1,12 +1,11 @@
-#include "Window.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "Quad.h"
-#include "Transformation.h"
-#include "Camera.h"
-#include "Constants.h"
-#include "Timer.h"
+#include "OpenGLTemplate.h"
 #include <memory>
+
+void RenderQuad()
+{
+	static std::shared_ptr<Mesh> mesh_ptr = std::make_shared<Quad>(0.5f, 0.5f);
+	mesh_ptr->Render();
+}
 
 int main()
 {
@@ -17,10 +16,10 @@ int main()
 	glm::vec3 cameraPosition(0.0f, 0.0f, 5.0f);
 	Camera camera(cameraPosition);
 
-	Shader shader { PATH_PREFIX + "Shaders/shader-vert.glsl" , PATH_PREFIX + "Shaders/shader-frag.glsl" };
+	Shader shader { "Assets/Shaders/shader-vert.glsl" , "Assets/Shaders/shader-frag.glsl" };
 	shader.Use();
 
-	Texture awesomeface { PATH_PREFIX + "Textures/awesomeface.png" };
+	Texture awesomeface { "Assets/Textures/awesomeface.png" };
 	awesomeface.Bind(1);
 
 	glEnable(GL_DEPTH);
@@ -31,17 +30,19 @@ int main()
 
 		// process inputs and events...
 		window.ProcessInput();
-		camera.ProcessInput(window, time.GetTimeStep());
+		camera.ProcessInput(time.GetTimeStep());
 
 		// set shader uniforms...
 		Transformation model;
-		shader.SetMatrix("model", model.GetModelMatrix());
-		shader.SetMatrix("view", camera.GetViewMatrix());
-		shader.SetMatrix("projection", camera.GetProjectionMatrix());
+		shader.SetMatrix("uModel", model.GetModelMatrix());
+		shader.SetMatrix("uView", camera.GetViewMatrix());
+		shader.SetMatrix("uProjection", camera.GetProjectionMatrix());
 
 		// rendering commands...
 		window.ClearScreen();
 		glClear(GL_DEPTH_BUFFER_BIT);
+
+		RenderQuad();
 
 		// check and call events, swap the front and back buffers...
 		window.SwapBuffers();

@@ -1,7 +1,5 @@
 add_executable (Application "Application.cpp")
 
-target_include_directories(Application PRIVATE "${OpenGLTemplate_SOURCE_DIR}/Source")
+target_include_directories(Application PRIVATE "${OpenGLTemplate_SOURCE_DIR}/Include")
 
-target_compile_features(Application PRIVATE cxx_std_17)
-
-target_link_libraries(Application PRIVATE GRAPHICS_TEMPLATE)
+target_link_libraries(Application PRIVATE graphics-template)

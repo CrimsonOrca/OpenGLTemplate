@@ -15,7 +15,7 @@ void Time::Start()
 	mLastTime = mCurrentTime;
 }
 
-float Time::GetTimeStep() const
+float Time::GetTimeStep()
 {
 	return mTimeStep;
 }

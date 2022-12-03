@@ -12,24 +12,26 @@ Camera::Camera(glm::vec3 position)
 
 }
 
-void Camera::ProcessKeyboardButtonPress(Window& window, float timeStep)
+void Camera::ProcessKeyboardButtonPress(float timeStep)
 {
-	if (glfwGetKey(window.GetWindowPointer(), GLFW_KEY_W) == GLFW_PRESS)
+	auto* window = Window::GetInput().window;
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		mPosition += CAMERA_SPEED * timeStep * mDirection;
 
-	if (glfwGetKey(window.GetWindowPointer(), GLFW_KEY_S) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		mPosition -= CAMERA_SPEED * timeStep * mDirection;
 
-	if (glfwGetKey(window.GetWindowPointer(), GLFW_KEY_A) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		mPosition -= glm::normalize(glm::cross(mDirection, mUp)) * timeStep * CAMERA_SPEED;
 
-	if (glfwGetKey(window.GetWindowPointer(), GLFW_KEY_D) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		mPosition += glm::normalize(glm::cross(mDirection, mUp)) * timeStep * CAMERA_SPEED;
 }
 
-void Camera::ProcessMouseMovement(Window& window)
+void Camera::ProcessMouseMovement()
 {
-	Mouse mouse = window.GetMouse();
+	Mouse mouse = Window::GetMouse();
 	mouse.deltaX *= CAMERA_SENSITIVITY;
 	mouse.deltaY *= CAMERA_SENSITIVITY;
 
@@ -57,16 +59,16 @@ void Camera::ProcessMouseMovement(Window& window)
 	UpdateCameraVectors();
 }
 
-void Camera::ProcessMouseScroll(Window& window)
+void Camera::ProcessMouseScroll()
 {
 
 }
 
-void Camera::ProcessInput(Window& window, float timeStep)
+void Camera::ProcessInput(float timeStep)
 {
-	ProcessKeyboardButtonPress(window, timeStep);
-	ProcessMouseMovement(window);
-	ProcessMouseScroll(window);
+	ProcessKeyboardButtonPress(timeStep);
+	ProcessMouseMovement();
+	ProcessMouseScroll();
 }
 
 void Camera::UpdateCameraVectors()
