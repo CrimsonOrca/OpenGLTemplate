@@ -1,20 +1,14 @@
 #include "OpenGLTemplate.h"
 #include <memory>
 
-void RenderQuad()
-{
-	static std::shared_ptr<Mesh> mesh_ptr = std::make_shared<Quad>(0.5f, 0.5f);
-	mesh_ptr->Render();
-}
-
 int main()
 {
 	Window window;
 
 	Time time;
 
-	glm::vec3 cameraPosition(0.0f, 0.0f, 5.0f);
-	Camera camera(cameraPosition);
+	glm::vec3 cameraPosition {0.0f, 0.0f, 5.0f};
+	Camera camera {cameraPosition};
 
 	Shader shader { "Assets/Shaders/shader-vert.glsl" , "Assets/Shaders/shader-frag.glsl" };
 	shader.Use();
@@ -23,6 +17,10 @@ int main()
 	awesomeface.Bind(1);
 
 	glEnable(GL_DEPTH);
+
+	Quad quadMesh;
+	Renderer renderer;
+	renderer.SetMesh(quadMesh);
 
 	while (!window.ShouldClose())
 	{
@@ -42,7 +40,7 @@ int main()
 		window.ClearScreen();
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		RenderQuad();
+		renderer.Draw();
 
 		// check and call events, swap the front and back buffers...
 		window.SwapBuffers();

@@ -5,10 +5,22 @@ Mesh::~Mesh()
 
 }
 
-void Mesh::Setup()
-{
-	mVertexArray.Bind();
-	mVertexBuffer.SetVertices(mVertices);
-	mIndexBuffer.SetIndices(mIndices);
-	mVertexArray.Unbind();
+std::vector<Vertex> Mesh::GetVertices() const 
+{ 
+	return mVertices; 
+}
+
+std::vector<GLuint> Mesh::GetIndices() const 
+{ 
+	return mIndices; 
+}
+
+GLuint Mesh::GetVertexCount() const
+{ 
+	return mVertexCount; 
+}
+
+GLuint Mesh::GetIndexCount() const
+{ 
+	return mIndexCount; 
 }

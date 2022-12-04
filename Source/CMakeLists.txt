@@ -11,6 +11,7 @@
 	"Camera.cpp"
 	"Timer.cpp"
 	"Sphere.cpp"
+	"Renderer.cpp"
 	"stb_image.cpp")
 
 set(HEADER_LIST
@@ -26,6 +27,7 @@ set(HEADER_LIST
 	"Camera.h"
 	"Timer.h"
 	"Sphere.h"
+	"Renderer.h"
 	"Constants.h"
 	"Vertex.h"
 )

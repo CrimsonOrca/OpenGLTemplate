@@ -21,12 +21,6 @@ public:
 	{
 
 	}
-	virtual void Render() override
-	{
-		mVertexArray.Bind();
-		glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, 0);
-		mVertexArray.Unbind();
-	}
 	virtual void GenerateVertices() override
 	{
 

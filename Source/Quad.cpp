@@ -6,7 +6,8 @@ Quad::Quad()
 
 }
 
-Quad::~Quad()
+Quad::Quad(float size)
+	: Quad (size, size)
 {
 
 }
@@ -17,7 +18,11 @@ Quad::Quad(float width, float length)
 {
 	GenerateVertices();
 	GenerateIndices();
-	Setup();
+}
+
+Quad::~Quad()
+{
+
 }
 
 void Quad::GenerateVertices()
@@ -31,6 +36,8 @@ void Quad::GenerateVertices()
 	mVertices.push_back(TOP_LEFT);
 	mVertices.push_back(BOTTOM_LEFT);
 	mVertices.push_back(BOTTOM_RIGHT);
+
+	mVertexCount = mVertices.size();
 }
 
 void Quad::GenerateIndices() 
@@ -47,11 +54,6 @@ void Quad::GenerateIndices()
 	mIndices.push_back(TOP_RIGHT);
 	mIndices.push_back(BOTTOM_LEFT);
 	mIndices.push_back(BOTTOM_RIGHT);
-}
 
-void Quad::Render()
-{
-	mVertexArray.Bind();
-	glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, 0);
-	mVertexArray.Unbind();
+	mIndexCount = mIndices.size();
 }

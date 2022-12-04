@@ -7,9 +7,9 @@ class Quad : public Mesh
 {
 public:
 	Quad();
-	virtual ~Quad() override;
+	Quad(float size);
 	Quad(float width, float length);
-	virtual void Render() override;
+	virtual ~Quad() override;
 	virtual void GenerateVertices() override;
 	virtual void GenerateIndices() override;
 private:
