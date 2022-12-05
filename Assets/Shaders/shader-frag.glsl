@@ -1,13 +1,11 @@
 #version 430 core
 
-in vec2 oTextureCoordinate;
-
-layout (binding = 0) uniform sampler2D uWoodContainer;
-layout (binding = 1) uniform sampler2D uAwesomeFace;
+in vec3 oFragmentPosition;
+in vec3 oNormal;
 
 out vec4 oFragmentColor;
 
 void main()
 {
-	oFragmentColor = texture(uAwesomeFace, oTextureCoordinate);
+	oFragmentColor = vec4(1.0f, 0.5f, 0.0f, 1.0f);
 }

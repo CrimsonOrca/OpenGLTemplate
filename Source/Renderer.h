@@ -22,6 +22,10 @@ public:
 		mVertexArray.Unbind();
 	}
 	void Draw();
+	void EnableWireFrame() 
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
 protected:
 	VertexArray mVertexArray;
 	VertexBuffer mVertexBuffer;

@@ -8,10 +8,12 @@ uniform mat4 uModel;
 uniform mat4 uProjection;
 uniform mat4 uView;
 
-out vec2 oTextureCoordinate;
+out vec3 oNormal;
+out vec3 oFragmentPosition;
 
 void main()
 {
 	gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0f);
-	oTextureCoordinate = aTextureCoordinate;
+	oNormal = mat3(transpose(inverse(uModel))) * aNormal;
+	oFragmentPosition = vec3(uModel * vec4(aPosition, 1.0f));
 }

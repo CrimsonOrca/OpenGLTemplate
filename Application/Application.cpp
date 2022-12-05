@@ -7,20 +7,17 @@ int main()
 
 	Time time;
 
-	glm::vec3 cameraPosition {0.0f, 0.0f, 5.0f};
+	glm::vec3 cameraPosition {0.0f, 0.0f, 10.0f};
 	Camera camera {cameraPosition};
 
 	Shader shader { "Assets/Shaders/shader-vert.glsl" , "Assets/Shaders/shader-frag.glsl" };
 	shader.Use();
 
-	Texture awesomeface { "Assets/Textures/awesomeface.png" };
-	awesomeface.Bind(1);
-
 	glEnable(GL_DEPTH);
 
-	Quad quadMesh;
 	Renderer renderer;
-	renderer.SetMesh(quadMesh);
+	Sphere sphereMesh{5.0f};
+	renderer.SetMesh(sphereMesh);
 
 	while (!window.ShouldClose())
 	{
@@ -38,8 +35,8 @@ int main()
 
 		// rendering commands...
 		window.ClearScreen();
-		glClear(GL_DEPTH_BUFFER_BIT);
 
+		renderer.EnableWireFrame();
 		renderer.Draw();
 
 		// check and call events, swap the front and back buffers...
