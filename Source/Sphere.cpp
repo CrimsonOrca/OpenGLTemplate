@@ -11,7 +11,7 @@ Sphere::Sphere(float radius)
 {
 	GenerateVertices();
 	GenerateIndices();
-	Subdivide();
+	//Subdivide();
 }
 
 Sphere::~Sphere() 
@@ -25,18 +25,18 @@ void Sphere::GenerateVertices()
 	const float Z = 0.850650808352039932f;
 	const float N = 0.0f;
 
-	const Vertex V01 = { glm::normalize(glm::vec3(-X, N, Z)) };
-	const Vertex V02 = { glm::normalize(glm::vec3( X, N, Z)) };
-	const Vertex V03 = { glm::normalize(glm::vec3(-X, N,-Z)) };
-	const Vertex V04 = { glm::normalize(glm::vec3( X, N,-Z)) };
-	const Vertex V05 = { glm::normalize(glm::vec3( N, Z, X)) };
-	const Vertex V06 = { glm::normalize(glm::vec3( N, Z,-X)) };
-	const Vertex V07 = { glm::normalize(glm::vec3( N,-Z, X)) };
-	const Vertex V08 = { glm::normalize(glm::vec3( N,-Z,-X)) };
-	const Vertex V09 = { glm::normalize(glm::vec3( Z, X, N)) };
-	const Vertex V10 = { glm::normalize(glm::vec3(-Z, X, N)) };
-	const Vertex V11 = { glm::normalize(glm::vec3( Z,-X, N)) };
-	const Vertex V12 = { glm::normalize(glm::vec3(-Z,-X, N)) };
+	const Vertex V01 { glm::vec3(-X, N, Z) };
+	const Vertex V02 { glm::vec3( X, N, Z) };
+	const Vertex V03 { glm::vec3(-X, N,-Z) };
+	const Vertex V04 { glm::vec3( X, N,-Z) };
+	const Vertex V05 { glm::vec3( N, Z, X) };
+	const Vertex V06 { glm::vec3( N, Z,-X) };
+	const Vertex V07 { glm::vec3( N,-Z, X) };
+	const Vertex V08 { glm::vec3( N,-Z,-X) };
+	const Vertex V09 { glm::vec3( Z, X, N) };
+	const Vertex V10 { glm::vec3(-Z, X, N) };
+	const Vertex V11 { glm::vec3( Z,-X, N) };
+	const Vertex V12 { glm::vec3(-Z,-X, N) };
 
 	InsertVertex(V01);
 	InsertVertex(V02);
@@ -57,26 +57,26 @@ void Sphere::GenerateVertices()
 void Sphere::GenerateIndices()
 {
 	mIndices = { 
-		0,  4,  1, 
-		0,  9,  4, 
-		9,  5,  4, 
-		4,  5,  8, 
-		4,  8,  1, 
-		8, 10,  1, 
-		8,  3, 10, 
-		5,  3,  8, 
-		5,  2,  3, 
-		2,  7,  3, 
-		7, 10,  3, 
-		7,  6, 10, 
-		7, 11,  6, 
-	    11, 0,  6, 
-		0,  1,  6, 
-		6,  1, 10, 
-		9,  0, 11, 
-		9, 11,  2, 
-		9,  2,  5, 
-		7,  2, 11
+		 0,  4,  1, 
+		 0,  9,  4, 
+		 9,  5,  4, 
+		 4,  5,  8, 
+		 4,  8,  1, 
+		 8, 10,  1, 
+		 8,  3, 10, 
+		 5,  3,  8, 
+		 5,  2,  3, 
+		 2,  7,  3, 
+		 7, 10,  3, 
+		 7,  6, 10, 
+		 7, 11,  6, 
+	    11,  0,  6, 
+		 0,  1,  6, 
+		 6,  1, 10, 
+		 9,  0, 11, 
+		 9, 11,  2, 
+		 9,  2,  5, 
+	 	 7,  2, 11
 	};
 
 	mIndexCount = mIndices.size();
@@ -84,15 +84,15 @@ void Sphere::GenerateIndices()
 
 Vertex Sphere::CalculateMidpoint(const Vertex& v1, const Vertex& v2)
 {
-	float x = (v1.position.x + v2.position.x) / 2.0f;
-	float y = (v1.position.y + v2.position.y) / 2.0f;
-	float z = (v1.position.z + v2.position.z) / 2.0f;
+	float x { (v1.position.x + v2.position.x) / 2.0f };
+	float y { (v1.position.y + v2.position.y) / 2.0f };
+	float z { (v1.position.z + v2.position.z) / 2.0f };
 
-	float magnitude = std::sqrt(x * x + y * y + z * z);
+	const float LENGTH_INVERSE { 1.0f / std::sqrt(x * x + y * y + z * z) };
 
-	x /= magnitude;
-	y /= magnitude;
-	z /= magnitude;
+	x *= LENGTH_INVERSE;
+	y *= LENGTH_INVERSE;
+	z *= LENGTH_INVERSE;
 
 	return { glm::vec3(x, y, z) , glm::vec3(), glm::vec2() };
 }

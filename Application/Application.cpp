@@ -16,8 +16,7 @@ int main()
 	glEnable(GL_DEPTH);
 
 	Renderer renderer;
-	Sphere sphereMesh{5.0f};
-	renderer.SetMesh(sphereMesh);
+	renderer.SetMesh<Sphere>();
 
 	while (!window.ShouldClose())
 	{
@@ -35,8 +34,7 @@ int main()
 
 		// rendering commands...
 		window.ClearScreen();
-
-		renderer.EnableWireFrame();
+		renderer.ShowWireFrame();
 		renderer.Draw();
 
 		// check and call events, swap the front and back buffers...

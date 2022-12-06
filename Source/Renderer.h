@@ -22,7 +22,7 @@ public:
 		mVertexArray.Unbind();
 	}
 	void Draw();
-	void EnableWireFrame() 
+	void ShowWireFrame() 
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}

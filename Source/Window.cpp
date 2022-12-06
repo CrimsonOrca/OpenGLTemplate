@@ -2,9 +2,9 @@
 
 #include "Window.h"
 
-Mouse Window::mMouse;
+Mouse Window::mMouse { 0.0f, 0.0f, 0.0f, 0.0f };
 
-Input Window::mInput;
+Input Window::mInput { nullptr };
 
 Window::Window(int width, int height)
     : _width  {width}
@@ -47,6 +47,18 @@ Input Window::GetInput()
     return mInput; 
 }
 
+void Window::SetCursorPosition(float x, float y)
+{
+    mMouse.x = x;
+    mMouse.y = y;
+}
+
+void Window::SetCursorPositionOffset(float xDelta, float yDelta)
+{
+    mMouse.deltaX = xDelta;
+    mMouse.deltaY = yDelta;
+}
+
 int Window::Initialize()
 {
     if (!glfwInit())
@@ -71,8 +83,6 @@ int Window::Initialize()
     }
 
     glfwMakeContextCurrent(_window);
-
-    glfwSetWindowUserPointer(_window, this);
 
     glfwSetCursorPosCallback(_window, CursorPositionCallback);
 
@@ -120,36 +130,23 @@ void Window::ProcessEvents()
     glfwPollEvents();
 }
 
-void Window::CursorPositionCallback(GLFWwindow* window, double mousePositionX, double mousePositionY)
+void Window::CursorPositionCallback(GLFWwindow* window, double xPos, double yPos)
 {
-    auto* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    float x { static_cast<float>(xPos) };
+    float y { static_cast<float>(yPos) };
 
-    float& x = w->mMouse.x;
-    float& y = w->mMouse.y;
-    float& deltaX = w->mMouse.deltaX;
-    float& deltaY = w->mMouse.deltaY;
-
-    float xCurrent = static_cast<float>(mousePositionX);
-    float yCurrent = static_cast<float>(mousePositionY);
-
-    static bool isFirst = true;
-
+    static bool isFirst { true };
     if (isFirst)
     {
-        x = xCurrent;
-        y = yCurrent;
+        SetCursorPosition(x, y);
         isFirst = false;
     }
 
-    deltaX = xCurrent - x;
-    deltaY = y - yCurrent;
-
-    x = xCurrent;
-    y = yCurrent;
+    SetCursorPositionOffset(x - mMouse.x, mMouse.y - y);
+    SetCursorPosition(x, y);
 }
 
 void Window::ScrollCallback(GLFWwindow* window, double x, double y)
 {
-    Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
-
+    
 }
