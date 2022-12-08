@@ -1,5 +1,4 @@
 #include "OpenGLTemplate.h"
-#include <memory>
 
 int main()
 {
@@ -13,9 +12,8 @@ int main()
 	Shader shader { "Assets/Shaders/shader-vert.glsl" , "Assets/Shaders/shader-frag.glsl" };
 	shader.Use();
 
-	glEnable(GL_DEPTH);
-
 	Renderer renderer;
+	renderer.EnableDepthTesting();
 	renderer.SetMesh<Sphere>();
 
 	while (!window.ShouldClose())
@@ -33,10 +31,10 @@ int main()
 		shader.SetMatrix("uProjection", camera.GetProjectionMatrix());
 
 		// rendering commands...
-		window.ClearScreen();
+		renderer.ClearScreen();
 		renderer.ShowWireFrame();
 		renderer.Draw();
-
+	
 		// check and call events, swap the front and back buffers...
 		window.SwapBuffers();
 		window.ProcessEvents();

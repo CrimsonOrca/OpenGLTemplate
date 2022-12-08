@@ -13,6 +13,7 @@
 #include "../Source/Camera.h"
 #include "../Source/Timer.h"
 #include "../Source/Sphere.h"
+#include "../Source/Cube.h"
 #include "../Source/Renderer.h"
 #include "../Source/Constants.h"
 #include "../Source/Vertex.h"

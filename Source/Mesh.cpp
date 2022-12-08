@@ -34,3 +34,10 @@ void Mesh::InsertIndex(const GLuint& index)
 {
 	mIndices.push_back(index);
 }
+
+void Mesh::InsertTriangleIndices(const GLuint& i, const GLuint& j, const GLuint& k)
+{
+	InsertIndex(i);
+	InsertIndex(j);
+	InsertIndex(k);
+}

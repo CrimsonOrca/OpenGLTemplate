@@ -32,11 +32,6 @@ int Window::GetHeight() const
     return _height;
 }
 
-GLFWwindow* Window::GetWindowPointer()
-{
-    return _window;
-}
-
 Mouse Window::GetMouse()
 { 
     return mMouse;
@@ -117,12 +112,6 @@ void Window::ProcessInput()
 void Window::SwapBuffers()
 {
     glfwSwapBuffers(_window);
-}
-
-void Window::ClearScreen()
-{
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::ProcessEvents()

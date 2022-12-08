@@ -20,7 +20,7 @@ const float FIELD_OF_VIEW_MIN  { 1.0f };
 const float NEAR_PLANE         { 0.1f };
 const float FAR_PLANE          { 100.0f };
 const float ASPECT_RATIO       { static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT) };
-const float CAMERA_SPEED       { 2.5f };
+const float CAMERA_SPEED       { 5.0f };
 const float CAMERA_SENSITIVITY { 0.1f };
 
 const float	PITCH_MAX { 89.0f };

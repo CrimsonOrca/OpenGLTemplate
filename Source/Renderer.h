@@ -1,6 +1,11 @@
 #ifndef _RENDERER_H_
 #define _RENDERER_H_
 
+#include <memory>
+
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
 #include "Vertex.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
@@ -12,25 +17,23 @@ class Renderer
 public:
 	Renderer();
 	~Renderer();
-	void SetMesh(Mesh& mesh);
-	template<typename T, typename... Params> void SetMesh(Params... params)
+	template<typename T> void SetMesh()
 	{
-		mMesh = new T(params...);
+		mMesh = std::make_shared<T>();
 		mVertexArray.Bind();
 		mVertexBuffer.SetVertices(mMesh->GetVertices());
 		mIndexBuffer.SetIndices(mMesh->GetIndices());
 		mVertexArray.Unbind();
 	}
 	void Draw();
-	void ShowWireFrame() 
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
+	void ShowWireFrame();
+	void ClearScreen();
+	void EnableDepthTesting();
 protected:
 	VertexArray mVertexArray;
 	VertexBuffer mVertexBuffer;
 	IndexBuffer mIndexBuffer;
-	Mesh* mMesh;
+	std::shared_ptr<Mesh> mMesh;
 };
 
 #endif

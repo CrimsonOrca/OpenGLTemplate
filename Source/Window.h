@@ -30,11 +30,9 @@ class Window
 		~Window();
 		int GetWidth() const;
 		int GetHeight() const;
-		GLFWwindow* GetWindowPointer();
 		int Initialize();
 		int ShouldClose();
 		void ProcessInput();
-		void ClearScreen();
 		void SwapBuffers();
 		void ProcessEvents();
 		static void CursorPositionCallback(GLFWwindow* window, double x, double y);

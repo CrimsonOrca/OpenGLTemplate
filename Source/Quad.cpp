@@ -1,7 +1,7 @@
 #include "Quad.h"
 
 Quad::Quad()
-	: Quad(0.5f, 0.5f)
+	: Quad(1.0f, 1.0f)
 {
 
 }
