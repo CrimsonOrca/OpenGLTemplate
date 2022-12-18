@@ -26,13 +26,14 @@ int main()
 
 		// set shader uniforms...
 		Transformation model;
+		model.Scale(5, 1, 1);
 		shader.SetMatrix("uModel", model.GetModelMatrix());
 		shader.SetMatrix("uView", camera.GetViewMatrix());
 		shader.SetMatrix("uProjection", camera.GetProjectionMatrix());
 
 		// rendering commands...
 		renderer.ClearScreen();
-		renderer.ShowWireFrame();
+		renderer.DrawWireFrame();
 		renderer.Draw();
 	
 		// check and call events, swap the front and back buffers...

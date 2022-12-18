@@ -1,8 +1,8 @@
-FILE_PATH = "../Vendor/glad/CMakeLists.txt"
+FILE_PATH: str = "../Vendor/glad/CMakeLists.txt"
 
-WRITE_MODE = 'w'
+WRITE_MODE: str = "w"
 
-SCRIPT = \
+SCRIPT: str = \
 """
 cmake_minimum_required (VERSION 3.22.1)
 

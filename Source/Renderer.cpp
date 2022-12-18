@@ -11,7 +11,7 @@ Renderer::~Renderer()
 	
 }
 
-void Renderer::ShowWireFrame()
+void Renderer::DrawWireFrame()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }

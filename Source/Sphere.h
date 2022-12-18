@@ -5,20 +5,23 @@
 #include "Constants.h"
 #include "Mesh.h"
 
+typedef glm::vec3 Position;
+typedef glm::vec3 Normal;
+typedef glm::vec2 TextureCoordinate;
+
 class Sphere: public Mesh
 {
 	public:
-		Sphere(float radius);
-		Sphere();
+		Sphere(std::size_t subdivisions = 4);
 		virtual ~Sphere() override;
 		virtual void GenerateVertices() override;
 		virtual void GenerateIndices() override;
-		Vertex CalculateMidpoint(const Vertex& v1, const Vertex& v2);
-		void Subdivide();
 	private:
-		float mRadius;
-		std::unordered_map<GLuint, GLuint> mCache;
-		const std::size_t SUBDIVISIONS { 4 };
+		Vertex CalculateMidpointVertex(const GLuint& v1, const GLuint& v2);
+		GLuint CalculateMidpointIndex(const GLuint& i1, const GLuint& i2);
+		void Subdivide();
+		std::unordered_map<uint64_t, GLuint> mCache;
+		std::size_t mSubdivisions;
 };
 
 #endif
