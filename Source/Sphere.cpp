@@ -23,20 +23,20 @@ void Sphere::GenerateVertices()
 	t /= distance;
 
 	mVertices = {
-		{ Position(-s,  t, 0.0f) },
-		{ Position( s,  t, 0.0f) },
-		{ Position(-s, -t, 0.0f) },
-		{ Position( s, -t, 0.0f) },
+		{ Position(-s,  t, 0.0f), Normal(-s,  t, 0.0f) },
+		{ Position( s,  t, 0.0f), Normal( s,  t, 0.0f) },
+		{ Position(-s, -t, 0.0f), Normal(-s, -t, 0.0f) },
+		{ Position( s, -t, 0.0f), Normal( s, -t, 0.0f) },
+		
+		{ Position(0.0f, -s,  t), Normal(0.0f, -s,  t) },
+		{ Position(0.0f,  s,  t), Normal(0.0f,  s,  t) },
+		{ Position(0.0f, -s, -t), Normal(0.0f, -s, -t) },
+		{ Position(0.0f,  s, -t), Normal(0.0f,  s, -t) },
 
-		{ Position(0.0f, -s,  t) },
-		{ Position(0.0f,  s,  t) },
-		{ Position(0.0f, -s, -t) },
-		{ Position(0.0f,  s, -t) },
-
-		{ Position( t, 0.0f, -s) },
-		{ Position( t, 0.0f,  s) },
-		{ Position(-t, 0.0f, -s) },
-		{ Position(-t, 0.0f,  s) },
+		{ Position( t, 0.0f, -s), Normal( t, 0.0f, -s) },
+		{ Position( t, 0.0f,  s), Normal( t, 0.0f,  s) },
+		{ Position(-t, 0.0f, -s), Normal(-t, 0.0f, -s) },
+		{ Position(-t, 0.0f,  s), Normal(-t, 0.0f,  s) },
 	};
 
 	mVertexCount = mVertices.size();
@@ -58,8 +58,11 @@ Vertex Sphere::CalculateMidpointVertex(const GLuint& i1, const GLuint& i2)
 {
 	auto& v1 = mVertices.at(i1);
 	auto& v2 = mVertices.at(i2);
-	Vertex v3 = { glm::normalize((v1.position + v2.position) * 0.5f) };
-	return v3;
+
+	glm::vec3 position = glm::normalize((v1.position + v2.position) * 0.5f);
+	glm::vec3 normal = position;
+
+	return { position, normal };
 }
 
 GLuint Sphere::CalculateMidpointIndex(const GLuint& i1, const GLuint& i2)

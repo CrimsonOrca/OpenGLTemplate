@@ -91,3 +91,8 @@ glm::mat4 Camera::GetProjectionMatrix() const
 {
 	return glm::perspective(glm::radians(mZoom), ASPECT_RATIO, NEAR_PLANE, FAR_PLANE);
 }
+
+glm::vec3 Camera::GetPosition() const
+{
+	return mPosition;
+}

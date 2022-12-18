@@ -9,8 +9,8 @@ int main()
 	glm::vec3 cameraPosition {0.0f, 0.0f, 10.0f};
 	Camera camera {cameraPosition};
 
-	Shader shader { "Assets/Shaders/shader-vert.glsl" , "Assets/Shaders/shader-frag.glsl" };
-	shader.Use();
+	Shader lightingShader("Assets/Shaders/phong-lighting-vert.glsl", "Assets/Shaders/phong-lighting-frag.glsl");
+	lightingShader.Use();
 
 	Renderer renderer;
 	renderer.EnableDepthTesting();
@@ -26,14 +26,14 @@ int main()
 
 		// set shader uniforms...
 		Transformation model;
-		model.Scale(5, 1, 1);
-		shader.SetMatrix("uModel", model.GetModelMatrix());
-		shader.SetMatrix("uView", camera.GetViewMatrix());
-		shader.SetMatrix("uProjection", camera.GetProjectionMatrix());
+		lightingShader.SetVector("uViewPosition", camera.GetPosition());
+		lightingShader.SetMatrix("uModel", model.GetModelMatrix());
+		lightingShader.SetMatrix("uView", camera.GetViewMatrix());
+		lightingShader.SetMatrix("uProjection", camera.GetProjectionMatrix());
 
 		// rendering commands...
 		renderer.ClearScreen();
-		renderer.DrawWireFrame();
+		//renderer.DrawWireFrame();
 		renderer.Draw();
 	
 		// check and call events, swap the front and back buffers...
