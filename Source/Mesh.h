@@ -23,14 +23,11 @@ class Mesh
 		std::vector<GLuint> GetIndices() const;
 		GLuint GetVertexCount() const;
 		GLuint GetIndexCount() const;
-		void InsertVertex(const Vertex& vertex);
-		void InsertIndex(const GLuint& index);
-		void InsertTriangleIndices(const GLuint& i, const GLuint& j, const GLuint& k);
 	protected:
-		std::vector<Vertex> mVertices;
-		std::vector<GLuint> mIndices;
-		GLuint mVertexCount;
-		GLuint mIndexCount;
+		std::vector<Vertex> mVertices {};
+		std::vector<GLuint> mIndices {};
+		GLuint mVertexCount = 0;
+		GLuint mIndexCount = 0;
 };
 
 #endif 

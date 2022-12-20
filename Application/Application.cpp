@@ -9,12 +9,12 @@ int main()
 	glm::vec3 cameraPosition {0.0f, 0.0f, 10.0f};
 	Camera camera {cameraPosition};
 
-	Shader lightingShader("Assets/Shaders/phong-lighting-vert.glsl", "Assets/Shaders/phong-lighting-frag.glsl");
+	Shader lightingShader("Assets/Shaders/basic-lighting-vert.glsl", "Assets/Shaders/basic-lighting-frag.glsl");
 	lightingShader.Use();
 
 	Renderer renderer;
 	renderer.EnableDepthTesting();
-	renderer.SetMesh<Sphere>();
+	renderer.SetMesh<Cube>();
 
 	while (!window.ShouldClose())
 	{
@@ -33,7 +33,7 @@ int main()
 
 		// rendering commands...
 		renderer.ClearScreen();
-		//renderer.DrawWireFrame();
+
 		renderer.Draw();
 	
 		// check and call events, swap the front and back buffers...

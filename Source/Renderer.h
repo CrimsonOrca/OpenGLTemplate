@@ -33,9 +33,13 @@ template<typename T, typename... Args>
 void Renderer::SetMesh(Args... args)
 {
 	mMesh = std::make_shared<T>(args...);
+
 	mVertexArray.Bind();
 	mVertexBuffer.SetVertices(mMesh->GetVertices());
-	mIndexBuffer.SetIndices(mMesh->GetIndices());
+
+	if (mMesh->GetIndexCount())
+		mIndexBuffer.SetIndices(mMesh->GetIndices());
+
 	mVertexArray.Unbind();
 }
 

@@ -1,13 +1,15 @@
 #ifndef _SPHERE_H
 #define _SPHERE_H
 
+/*
+	sphere mesh generation algorithm inspired by
+	https://www.youtube.com/watch?v=zxnaq2nhMCQ
+	http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
+*/
+
 #include <unordered_map>
 #include "Constants.h"
 #include "Mesh.h"
-
-typedef glm::vec3 Position;
-typedef glm::vec3 Normal;
-typedef glm::vec2 TextureCoordinate;
 
 class Sphere: public Mesh
 {

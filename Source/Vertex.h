@@ -7,6 +7,10 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+typedef glm::vec3 Position;
+typedef glm::vec3 Normal;
+typedef glm::vec2 TextureCoordinate;
+
 struct Vertex
 {
 	glm::vec3 position;

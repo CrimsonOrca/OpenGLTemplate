@@ -3,6 +3,9 @@
 in vec3 oFragmentPosition;
 in vec3 oNormal;
 
+vec3 iFragmentPosition = oFragmentPosition;
+vec3 iNormal = oNormal;
+
 uniform vec3 uViewPosition;
 
 out vec4 oFragmentColor;
@@ -11,7 +14,7 @@ void main()
 {
 	vec3 objectColor    = vec3(1.0f, 0.45f, 0.0f);
 	vec3 lightColor     = vec3(1.0f, 1.0f, 1.0f);
-	vec3 lightPosition  = vec3(2.5f, 2.5f, 2.5f);
+	vec3 lightPosition  = vec3(2.0f, 2.0f, 2.0f);
 	vec3 normal         = normalize(oNormal);
 	vec3 lightDirection = normalize(lightPosition - oFragmentPosition);
 

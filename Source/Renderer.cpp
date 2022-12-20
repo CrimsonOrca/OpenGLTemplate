@@ -1,7 +1,6 @@
 #include "Renderer.h"
 
 Renderer::Renderer()
-	: mMesh {nullptr}
 {
 
 }
@@ -19,7 +18,12 @@ void Renderer::DrawWireFrame()
 void Renderer::Draw()
 {
 	mVertexArray.Bind();
-	glDrawElements(GL_TRIANGLES, mMesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
+
+	if (mMesh->GetIndexCount())
+		glDrawElements(GL_TRIANGLES, mMesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
+	else
+		glDrawArrays(GL_TRIANGLES, 0, mMesh->GetVertexCount());
+
 	mVertexArray.Unbind();
 }
 

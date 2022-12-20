@@ -27,10 +27,10 @@ Quad::~Quad()
 
 void Quad::GenerateVertices()
 {
-	const Vertex TOP_RIGHT    = { glm::vec3( mWidth,  mLength, 0.0f), glm::vec3(), glm::vec2(1.0f, 1.0f) };
-	const Vertex TOP_LEFT     = { glm::vec3(-mWidth,  mLength, 0.0f), glm::vec3(), glm::vec2(0.0f, 1.0f) };
-	const Vertex BOTTOM_LEFT  = { glm::vec3(-mWidth, -mLength, 0.0f), glm::vec3(), glm::vec2(0.0f, 0.0f) };
-	const Vertex BOTTOM_RIGHT = { glm::vec3( mWidth, -mLength, 0.0f), glm::vec3(), glm::vec2(1.0f, 0.0f) };
+	const Vertex TOP_RIGHT    = { Position( mWidth,  mLength, 0.0f), Normal(), TextureCoordinate(1.0f, 1.0f) };
+	const Vertex TOP_LEFT     = { Position(-mWidth,  mLength, 0.0f), Normal(), TextureCoordinate(0.0f, 1.0f) };
+	const Vertex BOTTOM_LEFT  = { Position(-mWidth, -mLength, 0.0f), Normal(), TextureCoordinate(0.0f, 0.0f) };
+	const Vertex BOTTOM_RIGHT = { Position( mWidth, -mLength, 0.0f), Normal(), TextureCoordinate(1.0f, 0.0f) };
 
 	mVertices.push_back(TOP_RIGHT);
 	mVertices.push_back(TOP_LEFT);
