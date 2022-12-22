@@ -1,6 +1,8 @@
 #ifndef _VERTEX_H_
 #define _VERTEX_H_
 
+#include <cmath>
+
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
@@ -10,6 +12,7 @@
 typedef glm::vec3 Position;
 typedef glm::vec3 Normal;
 typedef glm::vec2 TextureCoordinate;
+typedef glm::vec3 Color;
 
 struct Vertex
 {
