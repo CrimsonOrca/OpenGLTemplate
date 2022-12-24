@@ -1,6 +1,6 @@
 #include "OpenGLTemplate.h"
 
-void DrawCubes(Shader&, Renderer&);
+void DrawWoodenContainers(Shader&, Renderer&);
 
 int main()
 {
@@ -8,18 +8,32 @@ int main()
 
 	Time time;
 
-	glm::vec3 cameraPosition{ 0.0f, 0.0f, 10.0f };
-	Camera camera{ cameraPosition };
+	Position cameraPosition = { 0.0f, 0.0f, 10.0f };
+	Camera camera = cameraPosition;
 
-	Shader materialsShader("Assets/Shaders/light-casters-vert.glsl", "Assets/Shaders/light-casters-frag.glsl");
-	materialsShader.Use();
+	Shader shader("Assets/Shaders/multiple-lights-vert.glsl", "Assets/Shaders/multiple-lights-frag.glsl");
 
-	Texture containerTexture("Assets/Textures/container2.png");
+	Shader lightShader("Assets/Shaders/shader-vert.glsl", "Assets/Shaders/shader-frag.glsl");
+
+	Texture woodenContainerTexture("Assets/Textures/container2.png");
 	Texture steelBorderTexture("Assets/Textures/container2_specular.png");
 
 	Renderer renderer;
 	renderer.EnableDepthTesting();
-	renderer.SetMesh<Cube>();
+	renderer.AddMesh<Cube>("Cube0");
+	renderer.AddMesh<Sphere>("Sphere0");
+
+	const int NUMBER_POINT_LIGHT_POSITIONS = 4;
+	const Position pointLightPositions[] = {
+		Position( 0.7f,  0.2f,  4.0f),
+		Position( 2.3f, -3.3f, -4.0f),
+		Position(-4.0f,  2.0f, -12.0f),
+		Position( 0.0f,  0.0f, -3.0f)
+	};
+
+	const Color BLACK = { 0.0f, 0.0f, 0.0f };
+	const Color GREEN = { 0.0f, 1.0f, 0.0f };
+	const Color WHITE = { 1.0f, 1.0f, 1.0f };
 
 	while (!window.ShouldClose())
 	{
@@ -29,37 +43,54 @@ int main()
 		window.ProcessInput();
 		camera.ProcessInput(time.GetTimeStep());
 
-		// bind texture units ... 
-		containerTexture.Bind(0);
-		materialsShader.SetInt("uMaterial.diffuse", 0);
-		containerTexture.Bind(1);
-		materialsShader.SetInt("uMaterial.specular", 1);
-
+		// bind texture units ...
+		shader.Use();
+		shader.SetInt("uMaterial.diffuse", 0);
+		shader.SetInt("uMaterial.specular", 1);
+		woodenContainerTexture.Bind(0);
+		steelBorderTexture.Bind(1);
+		
 		// set shader uniforms...
-		Transformation transformation;
-		materialsShader.SetMatrix("uView", camera.GetViewMatrix());
-		materialsShader.SetMatrix("uProjection", camera.GetProjectionMatrix());
-		materialsShader.SetVector("uViewPosition", camera.GetPosition());
+		shader.Use();
+		//Transformation transformation;
+		//shader.SetMatrix("uModel", transformation.GetModelMatrix());
+		shader.SetMatrix("uView", camera.GetViewMatrix());
+		shader.SetMatrix("uProjection", camera.GetProjectionMatrix());
+		shader.SetVector("uViewPosition", camera.GetPosition());
 
-		materialsShader.SetFloat("uMaterial.shininess", 32.0f);
+		shader.SetFloat("uMaterial.shininess", 32.0f);
 
-		materialsShader.SetVector("uDirectionalLight.direction", glm::normalize(glm::vec3(-0.2f, -1.0f, -0.3f)));
-		materialsShader.SetVector("uDirectionalLight.light.ambient", Color(0.2f, 0.2f, 0.2f));
-		materialsShader.SetVector("uDirectionalLight.light.diffuse", Color(0.5f, 0.5f, 0.5f));
-		materialsShader.SetVector("uDirectionalLight.light.specular", Color(1.0f, 1.0f, 1.0f));
+		shader.SetVector("uDirectionalLight.direction", Position(5.0f, 5.0f, 5.0f));
+		shader.SetVector("uDirectionalLight.light.ambient", BLACK);
+		shader.SetVector("uDirectionalLight.light.diffuse", GREEN);
+		shader.SetVector("uDirectionalLight.light.specular", WHITE);
 
-		materialsShader.SetVector("uPointLight.light.ambient", Color(0.2f, 0.2f, 0.2f));
-		materialsShader.SetVector("uPointLight.light.diffuse", Color(0.5f, 0.5f, 0.5f));
-		materialsShader.SetVector("uPointLight.light.specular", Color(1.0f, 1.0f, 1.0f));
-		materialsShader.SetVector("uPointLight.position", Position(0.5f, 0.5f, 0.5f));
-		materialsShader.SetFloat("uPointLight.constant", 1.0f);
-		materialsShader.SetFloat("uPointLight.linear", 0.09f);
-		materialsShader.SetFloat("uPointLight.quadratic", 0.032f);
+		for (int i = 0; i < NUMBER_POINT_LIGHT_POSITIONS; i++)
+		{
+			shader.SetVector("uPointLights[" + std::to_string(i) + "].light.ambient", BLACK);
+			shader.SetVector("uPointLights[" + std::to_string(i) + "].light.diffuse", GREEN);
+			shader.SetVector("uPointLights[" + std::to_string(i) + "].light.specular", WHITE);
+			shader.SetVector("uPointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
+			shader.SetFloat("uPointLights[" + std::to_string(i) + "].constant", 1.0f);
+			shader.SetFloat("uPointLights[" + std::to_string(i) + "].linear", 0.09f);
+			shader.SetFloat("uPointLights[" + std::to_string(i) + "].quadratic", 0.032f);
+		}
 
 		// rendering commands...
-		renderer.ClearScreen();
+		renderer.ClearScreen(); 
+		DrawWoodenContainers(shader, renderer);
 
-		DrawCubes(materialsShader, renderer);
+		lightShader.Use();
+		lightShader.SetMatrix("uView", camera.GetViewMatrix());
+		lightShader.SetMatrix("uProjection", camera.GetProjectionMatrix());
+		for (const auto& position : pointLightPositions)
+		{
+			Transformation transformation;
+			transformation.Scale(0.5f, 0.5f, 0.5f);
+			transformation.Translate(position.x, position.y, position.z);
+			lightShader.SetMatrix("uModel", transformation.GetModelMatrix());
+			renderer.Draw("Sphere0");
+		}
 
 		// check and call events, swap the front and back buffers...
 		window.SwapBuffers();
@@ -69,8 +100,7 @@ int main()
 	return 0;
 }
 
-
-void DrawCubes(Shader& shader, Renderer& renderer)
+void DrawWoodenContainers(Shader& shader, Renderer& renderer)
 {
 	static const int numCubePositions = 10;
 
@@ -94,6 +124,6 @@ void DrawCubes(Shader& shader, Renderer& renderer)
 		float angle = 20.0f * i;
 		transformation.Rotate(glm::normalize(glm::vec3(1.0f, 0.3f, 0.5f)), angle);
 		shader.SetMatrix("uModel", transformation.GetModelMatrix());
-		renderer.Draw();
+		renderer.Draw("Cube0");
 	}
 }

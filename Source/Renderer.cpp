@@ -1,6 +1,7 @@
 #include "Renderer.h"
 
 Renderer::Renderer()
+	: mMeshCount {0}
 {
 
 }
@@ -15,16 +16,21 @@ void Renderer::DrawWireFrame()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void Renderer::Draw()
+void Renderer::Draw(std::string name)
 {
-	mVertexArray.Bind();
+	if (mCache.find(name) != mCache.end())
+	{
+		mVertexArrays.at(mCache.at(name))->Bind();
 
-	if (mMesh->GetIndexCount())
-		glDrawElements(GL_TRIANGLES, mMesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
+		if (mMeshes.at(mCache.at(name))->GetIndexCount())
+			glDrawElements(GL_TRIANGLES, mMeshes.at(mCache.at(name))->GetIndexCount(), GL_UNSIGNED_INT, 0);
+		else
+			glDrawArrays(GL_TRIANGLES, 0, mMeshes.at(mCache.at(name))->GetVertexCount());
+
+		mVertexArrays.at(mCache.at(name))->Unbind();
+	}
 	else
-		glDrawArrays(GL_TRIANGLES, 0, mMesh->GetVertexCount());
-
-	mVertexArray.Unbind();
+		std::cout << "'" << name << "' MESH NAME/NUMBER NOT FOUND\n";
 }
 
 void Renderer::ClearScreen()

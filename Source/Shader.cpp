@@ -120,28 +120,68 @@ GLuint Shader::GetID() const
 
 void Shader::SetInt(std::string name, int value)
 {
-	glUniform1f(glGetUniformLocation(_ID, name.c_str()), value);
+	if (mCache.find(name) != mCache.end())
+		glUniform1i(mCache.at(name), value);
+	else
+	{
+		GLint location = glGetUniformLocation(_ID, name.c_str());
+		if (location != -1)
+		{
+			mCache.emplace(name, location);
+			glUniform1i(location, value);
+		}
+		else
+			std::cout << "'" + name + "' DOES NOT CORRESPOND TO AN ACTIVE UNIFORM VARIABLE" << "\n";
+	}
 }
 
 void Shader::SetFloat(std::string name, float value)
 {
-	glUniform1f(glGetUniformLocation(_ID, name.c_str()), value);
+	if (mCache.find(name) != mCache.end())
+		glUniform1f(mCache.at(name), value);
+	else
+	{
+		GLint location = glGetUniformLocation(_ID, name.c_str());
+		if (location != -1)
+		{
+			mCache.emplace(name, location);
+			glUniform1f(location, value);
+		}
+		else
+			std::cout << "'" + name + "' DOES NOT CORRESPOND TO AN ACTIVE UNIFORM VARIABLE" << "\n";
+	}
 }
 
 void Shader::SetVector(std::string name, const glm::vec3& value)
 {
-	glUniform3fv(glGetUniformLocation(_ID, name.c_str()), 1, glm::value_ptr(value));
+	if (mCache.find(name) != mCache.end())
+		glUniform3fv(mCache.at(name), 1, glm::value_ptr(value));
+	else
+	{
+		GLint location = glGetUniformLocation(_ID, name.c_str());
+		if (location != -1)
+		{
+			mCache.emplace(name, location);
+			glUniform3fv(location, 1, glm::value_ptr(value));
+		}
+		else
+			std::cout << "'" + name + "' DOES NOT CORRESPOND TO AN ACTIVE UNIFORM VARIABLE" << "\n";
+	}
 }
 
 void Shader::SetMatrix(std::string name, const glm::mat4& value)
 {
-	glUniformMatrix4fv(glGetUniformLocation(_ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+	if (mCache.find(name) != mCache.end())
+		glUniformMatrix4fv(mCache.at(name), 1, GL_FALSE, glm::value_ptr(value));
+	else
+	{
+		GLint location = glGetUniformLocation(_ID, name.c_str());
+		if (location != -1)
+		{
+			mCache.emplace(name, location);
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+		}
+		else
+			std::cout << "'" + name + "' DOES NOT CORRESPOND TO AN ACTIVE UNIFORM VARIABLE" << "\n";
+	}
 }
-
-//void Shader::SetMaterial(std::string name, const Material value)
-//{
-//	SetVector(name + ".ambient", value.ambient);
-//	SetVector(name + ".diffuse", value.diffuse);
-//	SetVector(name + ".specular", value.specular);
-//	SetFloat(name + ".shininess", value.shininess);
-//}

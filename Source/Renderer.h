@@ -2,6 +2,7 @@
 #define _RENDERER_H_
 
 #include <memory>
+#include <map>
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -17,30 +18,41 @@ class Renderer
 	public:
 		Renderer();
 		~Renderer();
-		template<typename T, typename... Args> void SetMesh(Args... args);
-		void Draw();
+		template<typename Type, typename... Arguments> void AddMesh(std::string name, Arguments... arguments);
+		void Draw(std::string name);
 		void DrawWireFrame();
 		void ClearScreen();
 		void EnableDepthTesting();
 	private:
-		VertexArray mVertexArray;
-		VertexBuffer mVertexBuffer;
-		IndexBuffer mIndexBuffer;
-		std::shared_ptr<Mesh> mMesh;
+		std::vector<std::shared_ptr<VertexArray>> mVertexArrays;
+		std::vector<std::shared_ptr<VertexBuffer>> mVertexBuffers;
+		std::vector<std::shared_ptr<IndexBuffer>> mIndexBuffers;
+		std::vector<std::shared_ptr<Mesh>> mMeshes;
+		std::map<std::string, int> mCache;
+		int mMeshCount;
 };
 
-template<typename T, typename... Args>
-void Renderer::SetMesh(Args... args)
+template<typename Type, typename... Arguments> 
+void Renderer::AddMesh(std::string name, Arguments... arguments)
 {
-	mMesh = std::make_shared<T>(args...);
+	mCache.emplace(name, mMeshCount);
 
-	mVertexArray.Bind();
-	mVertexBuffer.SetVertices(mMesh->GetVertices());
+	mMeshes.push_back(std::make_shared<Type>(arguments...));
 
-	if (mMesh->GetIndexCount())
-		mIndexBuffer.SetIndices(mMesh->GetIndices());
+	mVertexArrays.push_back(std::make_shared<VertexArray>());
+	mVertexBuffers.push_back(std::make_shared<VertexBuffer>());
+	mIndexBuffers.push_back(std::make_shared<IndexBuffer>());
 
-	mVertexArray.Unbind();
+	mVertexArrays.at(mMeshCount)->Bind();
+
+	mVertexBuffers.at(mMeshCount)->SetVertices(mMeshes.at(mMeshCount)->GetVertices());
+
+	if (mMeshes.at(mMeshCount)->GetIndexCount())
+		mIndexBuffers.at(mMeshCount)->SetIndices(mMeshes.at(mMeshCount)->GetIndices());
+
+	mVertexArrays.at(mMeshCount)->Unbind();
+
+	mMeshCount++;
 }
 
 #endif

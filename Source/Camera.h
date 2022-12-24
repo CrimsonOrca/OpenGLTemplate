@@ -38,6 +38,7 @@ class Camera
 		glm::mat4 GetViewMatrix() const;
 		glm::mat4 GetProjectionMatrix() const;
 		glm::vec3 GetPosition() const;
+		glm::vec3 GetDirection() const;
 	private:
 		glm::vec3 mPosition;
 		glm::vec3 mDirection; // front...
