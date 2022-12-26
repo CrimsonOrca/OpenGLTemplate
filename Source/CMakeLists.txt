@@ -32,9 +32,12 @@ set(HEADER_LIST
 	"Renderer.h"
 	"Constants.h"
 	"Vertex.h"
+	"Buffer.h"
 )
 
 add_library(graphics-template STATIC ${SOURCE_LIST} ${HEADER_LIST})
+
+target_compile_features(graphics-template PUBLIC cxx_std_20)
 
 target_include_directories(graphics-template PUBLIC "${OpenGLTemplate_SOURCE_DIR}/Vendor/stb")
 

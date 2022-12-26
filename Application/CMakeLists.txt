@@ -1,5 +1,7 @@
 add_executable(Application "Application.cpp")
 
+target_compile_features(Application PRIVATE cxx_std_20)
+
 target_include_directories(Application PRIVATE "${OpenGLTemplate_SOURCE_DIR}/Include")
 
 add_custom_target(Assets ALL

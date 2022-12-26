@@ -2,9 +2,17 @@
 
 void DrawWoodenContainers(Shader&, Renderer&);
 
+namespace GL = OpenGL;
+
 int main()
 {
 	Window window;
+
+	{
+		GL::Buffer<GL::VertexBuffer, Vertex> vertex_buffer{};
+		const std::vector<Vertex> v{ {Position(), Normal(), TextureCoordinate()} };
+		vertex_buffer.SetData(v);
+	}
 
 	Time time;
 

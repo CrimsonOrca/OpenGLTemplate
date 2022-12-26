@@ -13,7 +13,7 @@ Sphere::~Sphere()
 
 }
 
-void Sphere::GenerateVertices() 
+void Sphere::GenerateVertices()
 {
 	float s = 1.0f;
 	float t = ( 1.0f + std::sqrt(5.0f) ) * 0.5f;
