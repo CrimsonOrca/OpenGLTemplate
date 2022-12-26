@@ -17,10 +17,10 @@ namespace OpenGL {
 
 	template<typename TBuffer, typename TData>
 	concept CBuffer = (
-		(std::same_as<TBuffer, VertexBuffer> and (std::same_as<TData, float> or std::same_as<TData, Vertex>)) or
-		(std::same_as<TBuffer, IndexBuffer> and std::same_as<TData, unsigned int>) or
+		(std::same_as<TBuffer, VertexBuffer> && (std::same_as<TData, float> or std::same_as<TData, Vertex>)) ||
+		(std::same_as<TBuffer, IndexBuffer> && std::same_as<TData, unsigned int>) ||
 		(std::same_as<TBuffer, UnionBuffer>)
-		);
+	);
 
 	template<typename TBuffer, typename TData>
 		requires CBuffer<TBuffer, TData>
@@ -46,7 +46,7 @@ namespace OpenGL {
 	{
 		mData = data;
 
-		if (std::same_as<TBuffer, VertexBuffer>)
+		if constexpr (std::same_as<TBuffer, VertexBuffer>)
 		{
 			SpecifyVertexBufferLayout();
 		}
