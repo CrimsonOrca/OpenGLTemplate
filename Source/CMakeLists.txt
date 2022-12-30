@@ -32,7 +32,6 @@ set(HEADER_LIST
 	"Renderer.h"
 	"Constants.h"
 	"Vertex.h"
-	"Buffer.h"
 )
 
 add_library(graphics-template STATIC ${SOURCE_LIST} ${HEADER_LIST})

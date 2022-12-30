@@ -2,17 +2,9 @@
 
 void DrawWoodenContainers(Shader&, Renderer&);
 
-namespace GL = OpenGL;
-
 int main()
 {
 	Window window;
-
-	{
-		GL::Buffer<GL::VertexBuffer, Vertex> vertex_buffer{};
-		const std::vector<Vertex> v{ {Position(), Normal(), TextureCoordinate()} };
-		vertex_buffer.SetData(v);
-	}
 
 	Time time;
 
@@ -28,8 +20,8 @@ int main()
 
 	Renderer renderer;
 	renderer.EnableDepthTesting();
-	renderer.AddMesh<Cube>("Cube0");
-	renderer.AddMesh<Sphere>("Sphere0");
+	renderer.StoreMesh("Cube0", std::make_shared<Cube>());
+	renderer.StoreMesh("Sphere0", std::make_shared<Sphere>());
 
 	const int NUMBER_POINT_LIGHT_POSITIONS = 4;
 	const Position pointLightPositions[] = {

@@ -120,7 +120,7 @@ GLuint Shader::GetID() const
 
 void Shader::SetInt(std::string name, int value)
 {
-	if (mCache.find(name) != mCache.end())
+	if (mCache.contains(name))
 		glUniform1i(mCache.at(name), value);
 	else
 	{
@@ -137,7 +137,7 @@ void Shader::SetInt(std::string name, int value)
 
 void Shader::SetFloat(std::string name, float value)
 {
-	if (mCache.find(name) != mCache.end())
+	if (mCache.contains(name))
 		glUniform1f(mCache.at(name), value);
 	else
 	{
@@ -154,7 +154,7 @@ void Shader::SetFloat(std::string name, float value)
 
 void Shader::SetVector(std::string name, const glm::vec3& value)
 {
-	if (mCache.find(name) != mCache.end())
+	if (mCache.contains(name))
 		glUniform3fv(mCache.at(name), 1, glm::value_ptr(value));
 	else
 	{
@@ -171,7 +171,7 @@ void Shader::SetVector(std::string name, const glm::vec3& value)
 
 void Shader::SetMatrix(std::string name, const glm::mat4& value)
 {
-	if (mCache.find(name) != mCache.end())
+	if (mCache.contains(name))
 		glUniformMatrix4fv(mCache.at(name), 1, GL_FALSE, glm::value_ptr(value));
 	else
 	{

@@ -71,7 +71,7 @@ GLuint Sphere::CalculateMidpointIndex(const GLuint& i1, const GLuint& i2)
 	uint64_t largerIndex = std::max(i1, i2);
 	uint64_t key = (smallerIndex << 32) + largerIndex;
 
-	if (mCache.find(key) != mCache.end())
+	if (mCache.contains(key))
 		return mCache.at(key);
 		
 	GLuint index = mVertices.size();
@@ -103,7 +103,7 @@ void Sphere::Subdivide()
 			indices.insert(indices.end(), {  c, ca, bc });
 			indices.insert(indices.end(), { ab, bc, ca });
 		}
-		mIndices = indices;
+		mIndices = std::move(indices);
 	}
 	mIndexCount = mIndices.size();
 	mVertexCount = mVertices.size();

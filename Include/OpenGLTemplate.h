@@ -17,6 +17,5 @@
 #include "../Source/Renderer.h"
 #include "../Source/Constants.h"
 #include "../Source/Vertex.h"
-#include "../Source/Buffer.h"
 
 #endif

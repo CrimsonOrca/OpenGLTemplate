@@ -16,18 +16,44 @@ void Renderer::DrawWireFrame()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
+void Renderer::StoreMesh(std::string name, std::shared_ptr<Mesh> mesh)
+{
+	mCache.emplace(name, mMeshCount);
+
+	mMeshes.push_back(mesh);
+
+	mVertexArrays.push_back(std::make_unique<VertexArray>());
+	mVertexBuffers.push_back(std::make_unique<VertexBuffer>());
+	mIndexBuffers.push_back(std::make_unique<IndexBuffer>());
+
+	mVertexArrays.at(mMeshCount)->Bind();
+
+	mVertexBuffers.at(mMeshCount)->SetVertices(mMeshes.at(mMeshCount)->GetVertices());
+
+	if (mMeshes.at(mMeshCount)->GetIndexCount())
+		mIndexBuffers.at(mMeshCount)->SetIndices(mMeshes.at(mMeshCount)->GetIndices());
+
+	mVertexArrays.at(mMeshCount)->Unbind();
+
+	mMeshCount++;
+}
+
 void Renderer::Draw(std::string name)
 {
-	if (mCache.find(name) != mCache.end())
+	if (mCache.contains(name))
 	{
-		mVertexArrays.at(mCache.at(name))->Bind();
+		auto index {mCache.at(name)};
 
-		if (mMeshes.at(mCache.at(name))->GetIndexCount())
-			glDrawElements(GL_TRIANGLES, mMeshes.at(mCache.at(name))->GetIndexCount(), GL_UNSIGNED_INT, 0);
+		mVertexArrays.at(index)->Bind();
+
+		auto mesh { mMeshes.at(index) };
+
+		if (mesh->GetIndexCount())
+			glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
 		else
-			glDrawArrays(GL_TRIANGLES, 0, mMeshes.at(mCache.at(name))->GetVertexCount());
+			glDrawArrays(GL_TRIANGLES, 0, mesh->GetVertexCount());
 
-		mVertexArrays.at(mCache.at(name))->Unbind();
+		mVertexArrays.at(index)->Unbind();
 	}
 	else
 		std::cout << "'" << name << "' MESH NAME/NUMBER NOT FOUND\n";
