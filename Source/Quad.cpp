@@ -57,3 +57,8 @@ void Quad::GenerateIndices()
 
 	mIndexCount = mIndices.size();
 }
+
+void Quad::Draw() const
+{
+	glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, 0);
+}

@@ -8,6 +8,7 @@ class Cube : public Mesh
 	public:
 		Cube();
 		virtual ~Cube() override;
+		virtual void Draw() const override;
 		virtual void GenerateVertices() override;
 		virtual void GenerateIndices() override;
 	private:

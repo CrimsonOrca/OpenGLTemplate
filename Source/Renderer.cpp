@@ -1,14 +1,14 @@
 #include "Renderer.h"
 
 Renderer::Renderer()
-	: mMeshCount {0}
+	: mVertexArrays {}
+	, mVertexBuffers {}
+	, mIndexBuffers {}
+	, mMeshes {}
+	, mCache {}
+	, mMeshCount{}
 {
 
-}
-
-Renderer::~Renderer()
-{
-	
 }
 
 void Renderer::DrawWireFrame()
@@ -16,42 +16,40 @@ void Renderer::DrawWireFrame()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void Renderer::StoreMesh(std::string name, std::shared_ptr<Mesh> mesh)
+void Renderer::StoreMesh(std::string name, std::unique_ptr<Mesh>&& mesh)
 {
-	mCache.emplace(name, mMeshCount);
+	if (!mCache.contains(name))
+	{
+		mCache.emplace(name, mMeshCount);
 
-	mMeshes.push_back(mesh);
+		mMeshes.push_back(std::move(mesh));
 
-	mVertexArrays.push_back(std::make_unique<VertexArray>());
-	mVertexBuffers.push_back(std::make_unique<VertexBuffer>());
-	mIndexBuffers.push_back(std::make_unique<IndexBuffer>());
+		mVertexArrays.push_back(std::make_unique<VertexArray>());
+		mVertexBuffers.push_back(std::make_unique<VertexBuffer>());
+		mIndexBuffers.push_back(std::make_unique<IndexBuffer>());
 
-	mVertexArrays.at(mMeshCount)->Bind();
+		mVertexArrays.at(mMeshCount)->Bind();
 
-	mVertexBuffers.at(mMeshCount)->SetVertices(mMeshes.at(mMeshCount)->GetVertices());
+		mVertexBuffers.at(mMeshCount)->SetVertices(mMeshes.at(mMeshCount)->GetVertices());
 
-	if (mMeshes.at(mMeshCount)->GetIndexCount())
-		mIndexBuffers.at(mMeshCount)->SetIndices(mMeshes.at(mMeshCount)->GetIndices());
+		if (mMeshes.at(mMeshCount)->GetIndexCount())
+			mIndexBuffers.at(mMeshCount)->SetIndices(mMeshes.at(mMeshCount)->GetIndices());
 
-	mVertexArrays.at(mMeshCount)->Unbind();
+		mVertexArrays.at(mMeshCount)->Unbind();
 
-	mMeshCount++;
+		mMeshCount++;
+	}
 }
 
 void Renderer::Draw(std::string name)
 {
 	if (mCache.contains(name))
 	{
-		auto index {mCache.at(name)};
+		std::size_t index {mCache.at(name)};
 
 		mVertexArrays.at(index)->Bind();
 
-		auto mesh { mMeshes.at(index) };
-
-		if (mesh->GetIndexCount())
-			glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		else
-			glDrawArrays(GL_TRIANGLES, 0, mesh->GetVertexCount());
+		mMeshes.at(index)->Draw();
 
 		mVertexArrays.at(index)->Unbind();
 	}
@@ -62,7 +60,7 @@ void Renderer::Draw(std::string name)
 void Renderer::ClearScreen()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void Renderer::EnableDepthTesting()

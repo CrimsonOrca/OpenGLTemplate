@@ -7,6 +7,7 @@ Texture::Texture(std::string path)
 	, _channels {0}
 	, _format   {0}
 	, _data     {nullptr}
+	, mUnit     {-1}
 {
 	stbi_set_flip_vertically_on_load(true);
 
@@ -52,8 +53,39 @@ Texture::~Texture()
 	glDeleteTextures(1, &_ID);
 }
 
-void Texture::Bind(int i)
+void Texture::SetUnit(int unit)
+{
+	if (unit >= 0)
+		mUnit = unit;
+	else
+		std::cout << "TEXTURE UNIT CANNOT BE NEGATIVE...\n";
+}
+
+unsigned int Texture::GetUnit() const
+{
+	return mUnit;
+}
+
+void Texture::Bind()
+{
+	if (mUnit >= 0)
+	{
+		glActiveTexture(GL_TEXTURE0 + mUnit);
+		glBindTexture(GL_TEXTURE_2D, _ID);
+	}
+	else
+	{
+		std::cout << "TEXTURE UNIT NOT SET...\n";
+	}
+}
+
+void Texture::Bind(unsigned int i)
 {
 	glActiveTexture(GL_TEXTURE0 + i);
 	glBindTexture(GL_TEXTURE_2D, _ID);
+}
+
+void Texture::Unbind()
+{
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

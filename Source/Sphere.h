@@ -16,6 +16,7 @@ class Sphere: public Mesh
 	public:
 		Sphere(std::size_t subdivisions = 4);
 		virtual ~Sphere() override;
+		virtual void Draw() const override;
 		virtual void GenerateVertices() override;
 		virtual void GenerateIndices() override;
 	private:

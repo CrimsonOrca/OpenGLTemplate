@@ -130,8 +130,6 @@ void Shader::SetInt(std::string name, int value)
 			mCache.emplace(name, location);
 			glUniform1i(location, value);
 		}
-		else
-			std::cout << "'" + name + "' DOES NOT CORRESPOND TO AN ACTIVE UNIFORM VARIABLE" << "\n";
 	}
 }
 
@@ -147,8 +145,6 @@ void Shader::SetFloat(std::string name, float value)
 			mCache.emplace(name, location);
 			glUniform1f(location, value);
 		}
-		else
-			std::cout << "'" + name + "' DOES NOT CORRESPOND TO AN ACTIVE UNIFORM VARIABLE" << "\n";
 	}
 }
 
@@ -162,10 +158,9 @@ void Shader::SetVector(std::string name, const glm::vec3& value)
 		if (location != -1)
 		{
 			mCache.emplace(name, location);
+			std::cout << location << "\n";
 			glUniform3fv(location, 1, glm::value_ptr(value));
 		}
-		else
-			std::cout << "'" + name + "' DOES NOT CORRESPOND TO AN ACTIVE UNIFORM VARIABLE" << "\n";
 	}
 }
 
@@ -181,7 +176,5 @@ void Shader::SetMatrix(std::string name, const glm::mat4& value)
 			mCache.emplace(name, location);
 			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 		}
-		else
-			std::cout << "'" + name + "' DOES NOT CORRESPOND TO AN ACTIVE UNIFORM VARIABLE" << "\n";
 	}
 }

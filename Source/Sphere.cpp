@@ -108,3 +108,8 @@ void Sphere::Subdivide()
 	mIndexCount = mIndices.size();
 	mVertexCount = mVertices.size();
 }
+
+void Sphere::Draw() const 
+{
+	glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, 0);
+}

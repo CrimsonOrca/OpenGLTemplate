@@ -12,8 +12,11 @@
 	"Timer.cpp"
 	"Sphere.cpp"
 	"Cube.cpp"
+	"Plane.cpp"
 	"Renderer.cpp"
-	"stb_image.cpp")
+	"stb_image.cpp"
+	"./Development/ObjectOutline.cpp"
+)
 
 set(HEADER_LIST
 	"Window.h"
@@ -29,9 +32,12 @@ set(HEADER_LIST
 	"Timer.h"
 	"Sphere.h"
 	"Cube.h"
+	"Plane.h"
 	"Renderer.h"
 	"Constants.h"
 	"Vertex.h"
+	"./Development/ObjectOutline.h"
+	"./Development/StencilBufferManager.h"
 )
 
 add_library(graphics-template STATIC ${SOURCE_LIST} ${HEADER_LIST})

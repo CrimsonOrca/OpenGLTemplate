@@ -1,6 +1,24 @@
 #include "OpenGLTemplate.h"
 
-void DrawWoodenContainers(Shader&, Renderer&);
+namespace Utils {
+	/*
+		ensure Texture object's SetUnit(int) method was called prior to being passed in
+		shader program(s): "layout (binding = <bind point>) uniform sampler2D <name>"
+		<bind point> point should match 'mUnit' value of passed-in Texture object
+	*/
+	void Draw(std::string    name, 
+		      Renderer&      renderer, 
+		      Shader&        shader, 
+		      Texture&       texture, 
+		      Transformation transformation = Transformation()) 
+	{
+		shader.Use();
+		texture.Bind();
+		shader.SetMatrix("uModel", transformation.GetModelMatrix());
+		renderer.Draw(name);
+		texture.Unbind();
+	}
+};
 
 int main()
 {
@@ -8,32 +26,28 @@ int main()
 
 	Time time;
 
-	Position cameraPosition = { 0.0f, 0.0f, 10.0f };
-	Camera camera = cameraPosition;
+	Camera camera { Position(0.0f, 5.0f, 10.0f) };
 
-	Shader shader("Assets/Shaders/multiple-lights-vert.glsl", "Assets/Shaders/multiple-lights-frag.glsl");
-
-	Shader lightShader("Assets/Shaders/shader-vert.glsl", "Assets/Shaders/shader-frag.glsl");
-
-	Texture woodenContainerTexture("Assets/Textures/container2.png");
-	Texture steelBorderTexture("Assets/Textures/container2_specular.png");
-
-	Renderer renderer;
-	renderer.EnableDepthTesting();
-	renderer.StoreMesh("Cube0", std::make_shared<Cube>());
-	renderer.StoreMesh("Sphere0", std::make_shared<Sphere>());
-
-	const int NUMBER_POINT_LIGHT_POSITIONS = 4;
-	const Position pointLightPositions[] = {
-		Position( 0.7f,  0.2f,  4.0f),
-		Position( 2.3f, -3.3f, -4.0f),
-		Position(-4.0f,  2.0f, -12.0f),
-		Position( 0.0f,  0.0f, -3.0f)
+	Shader shader {
+		"Assets/Shaders/stencil-testing/stencil-testing-vert.glsl",
+		"Assets/Shaders/stencil-testing/stencil-testing-frag.glsl"
 	};
 
-	const Color BLACK = { 0.0f, 0.0f, 0.0f };
-	const Color GREEN = { 0.0f, 1.0f, 0.0f };
-	const Color WHITE = { 1.0f, 1.0f, 1.0f };
+	Shader borderColorShader {
+		"Assets/Shaders/stencil-testing/stencil-testing-vert.glsl",
+		"Assets/Shaders/stencil-testing/border-color-frag.glsl"
+	};
+
+	Texture marbleTexture { "Assets/Textures/marble.jpg" };
+	marbleTexture.SetUnit(0);
+	Texture concreteTexture { "Assets/Textures/concreteTexture.png" };
+	concreteTexture.SetUnit(0);
+
+	Renderer renderer;
+	renderer.StoreMesh("cube1", std::make_unique<Cube>());
+	renderer.StoreMesh("plane1", std::make_unique<Plane>());
+
+	ObjectOutline::f1();
 
 	while (!window.ShouldClose())
 	{
@@ -43,54 +57,53 @@ int main()
 		window.ProcessInput();
 		camera.ProcessInput(time.GetTimeStep());
 
-		// bind texture units ...
-		shader.Use();
-		shader.SetInt("uMaterial.diffuse", 0);
-		shader.SetInt("uMaterial.specular", 1);
-		woodenContainerTexture.Bind(0);
-		steelBorderTexture.Bind(1);
-		
 		// set shader uniforms...
 		shader.Use();
-		//Transformation transformation;
-		//shader.SetMatrix("uModel", transformation.GetModelMatrix());
 		shader.SetMatrix("uView", camera.GetViewMatrix());
 		shader.SetMatrix("uProjection", camera.GetProjectionMatrix());
-		shader.SetVector("uViewPosition", camera.GetPosition());
 
-		shader.SetFloat("uMaterial.shininess", 32.0f);
+		borderColorShader.Use();
+		borderColorShader.SetMatrix("uView", camera.GetViewMatrix());
+		borderColorShader.SetMatrix("uProjection", camera.GetProjectionMatrix());
+		
+		// rendering commands...
+		renderer.ClearScreen();
 
-		shader.SetVector("uDirectionalLight.direction", Position(5.0f, 5.0f, 5.0f));
-		shader.SetVector("uDirectionalLight.light.ambient", BLACK);
-		shader.SetVector("uDirectionalLight.light.diffuse", GREEN);
-		shader.SetVector("uDirectionalLight.light.specular", WHITE);
-
-		for (int i = 0; i < NUMBER_POINT_LIGHT_POSITIONS; i++)
+		ObjectOutline::f2();
 		{
-			shader.SetVector("uPointLights[" + std::to_string(i) + "].light.ambient", BLACK);
-			shader.SetVector("uPointLights[" + std::to_string(i) + "].light.diffuse", GREEN);
-			shader.SetVector("uPointLights[" + std::to_string(i) + "].light.specular", WHITE);
-			shader.SetVector("uPointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
-			shader.SetFloat("uPointLights[" + std::to_string(i) + "].constant", 1.0f);
-			shader.SetFloat("uPointLights[" + std::to_string(i) + "].linear", 0.09f);
-			shader.SetFloat("uPointLights[" + std::to_string(i) + "].quadratic", 0.032f);
+			Transformation transform;
+			transform.Translate(0.0f, -1.01f, 0.0f);
+			transform.Scale(5.0f, 0.0f, 5.0f);
+			Utils::Draw("plane1", renderer, shader, concreteTexture, transform);
 		}
 
-		// rendering commands...
-		renderer.ClearScreen(); 
-		DrawWoodenContainers(shader, renderer);
-
-		lightShader.Use();
-		lightShader.SetMatrix("uView", camera.GetViewMatrix());
-		lightShader.SetMatrix("uProjection", camera.GetProjectionMatrix());
-		for (const auto& position : pointLightPositions)
+		ObjectOutline::f3();
+		{
+			Utils::Draw("cube1", renderer, shader, marbleTexture);
+		}
 		{
 			Transformation transformation;
-			transformation.Scale(0.5f, 0.5f, 0.5f);
-			transformation.Translate(position.x, position.y, position.z);
-			lightShader.SetMatrix("uModel", transformation.GetModelMatrix());
-			renderer.Draw("Sphere0");
+			transformation.Translate(5, 0, 0);
+			Utils::Draw("cube1", renderer, shader, marbleTexture, transformation);
 		}
+
+		ObjectOutline::f4();
+		static float scale{ 1.05f };
+		{
+			Transformation transformation;
+			transformation.Translate(0.0f, 0.0f, 0.0f);
+			transformation.Scale(scale, scale, scale);
+			Utils::Draw("cube1", renderer, borderColorShader, marbleTexture, transformation);
+		}
+		{
+			Transformation transformation;
+			transformation.Translate(5.0f, 0.0f, 0.0f);
+			transformation.Scale(scale, scale, scale);
+			Utils::Draw("cube1", renderer, borderColorShader, marbleTexture, transformation);
+		}
+
+		// color, depth, and stencil buffer reset...
+		ObjectOutline::f5();
 
 		// check and call events, swap the front and back buffers...
 		window.SwapBuffers();
@@ -98,32 +111,4 @@ int main()
 	}
 
 	return 0;
-}
-
-void DrawWoodenContainers(Shader& shader, Renderer& renderer)
-{
-	static const int numCubePositions = 10;
-
-	static const Position cubePositions[numCubePositions] = {
-		Position( 0.0f,  0.0f,  0.0f),
-		Position( 2.0f,  5.0f, -15.0f),
-		Position(-1.5f, -2.2f, -2.5f),
-		Position(-3.8f, -2.0f, -12.3f),
-		Position( 2.4f, -0.4f, -3.5f),
-		Position(-1.7f,  3.0f, -7.5f),
-		Position( 1.3f, -2.0f, -2.5f),
-		Position( 1.5f,  2.0f, -2.5f),
-		Position( 1.5f,  0.2f, -1.5f),
-		Position(-1.3f,  1.0f, -1.5f)
-	};
-
-	for (int i = 0; i < numCubePositions; i++)
-	{
-		Transformation transformation;
-		transformation.Translate(cubePositions[i].x, cubePositions[i].y, cubePositions[i].z);
-		float angle = 20.0f * i;
-		transformation.Rotate(glm::normalize(glm::vec3(1.0f, 0.3f, 0.5f)), angle);
-		shader.SetMatrix("uModel", transformation.GetModelMatrix());
-		renderer.Draw("Cube0");
-	}
 }

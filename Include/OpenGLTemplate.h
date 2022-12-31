@@ -14,8 +14,12 @@
 #include "../Source/Timer.h"
 #include "../Source/Sphere.h"
 #include "../Source/Cube.h"
+#include "../Source/Plane.h"
 #include "../Source/Renderer.h"
 #include "../Source/Constants.h"
 #include "../Source/Vertex.h"
+
+#include "../Source/Development/ObjectOutline.h"
+#include "../Source/Development/StencilBufferManager.h"
 
 #endif

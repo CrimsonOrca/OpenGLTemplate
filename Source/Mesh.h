@@ -19,6 +19,7 @@ class Mesh
 		virtual ~Mesh();
 		virtual void GenerateVertices() = 0;
 		virtual void GenerateIndices() = 0;
+		virtual void Draw() const = 0;
 		std::vector<Vertex> GetVertices() const;
 		std::vector<GLuint> GetIndices() const;
 		GLuint GetVertexCount() const;

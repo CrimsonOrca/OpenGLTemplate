@@ -10,6 +10,7 @@ public:
 	Quad(float size);
 	Quad(float width, float length);
 	virtual ~Quad() override;
+	virtual void Draw() const override;
 	virtual void GenerateVertices() override;
 	virtual void GenerateIndices() override;
 private:

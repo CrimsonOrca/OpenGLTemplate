@@ -66,3 +66,8 @@ void Cube::GenerateIndices()
 {
 	
 }
+
+void Cube::Draw() const
+{
+	glDrawArrays(GL_TRIANGLES, 0, mVertexCount);
+}
